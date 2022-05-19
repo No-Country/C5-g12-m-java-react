@@ -33,3 +33,6 @@ build/
 .vscode/
 
 src/main/resources/application.properties
+
+BACK-END\ecommerce\src\main\resources\application.properties
+BACK-END/ecommerce/src/main/resources/application.properties
