@@ -37,7 +37,6 @@ public class Product {
     @ToString.Exclude
     private Category category;
 
-
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "mark_id")
     @ToString.Exclude
