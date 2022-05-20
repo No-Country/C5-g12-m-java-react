@@ -32,12 +32,15 @@ public class Product {
     @Column(name = "image", nullable = false, updatable = true)
     private String image;
 
-    @Column(name = "category", nullable = true)
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    @ToString.Exclude
     private Category category;
 
-    @Column(name = "mark", nullable = true)
-    @OneToOne(optional = true)
+
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "mark_id")
+    @ToString.Exclude
     private Mark mark;
 
 
