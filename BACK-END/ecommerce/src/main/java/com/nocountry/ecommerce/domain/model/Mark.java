@@ -15,7 +15,7 @@ public class Mark {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "mark_id")
    private Long id;
-   @Column(unique = true, nullable = false)
+   @Column(name = "name", unique = true, nullable = false)
    private String name;
 
    @Override

@@ -15,7 +15,7 @@ public class Category {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "category_id")
    private Long id;
-   @Column(unique = true, nullable = false)
+   @Column(name = "name", unique = true, nullable = false)
    private String name;
 
    @Override
