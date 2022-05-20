@@ -32,6 +32,15 @@ public class Product {
     @Column(name = "image", nullable = false, updatable = true)
     private String image;
 
+    @Column(name = "category", nullable = true)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Category category;
+
+    @Column(name = "mark", nullable = true)
+    @OneToOne(optional = true)
+    private Mark mark;
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,7 +52,9 @@ public class Product {
         if (!name.equals(product.name)) return false;
         if (!price.equals(product.price)) return false;
         if (!detail.equals(product.detail)) return false;
-        return image.equals(product.image);
+        if (!image.equals(product.image)) return false;
+        if (category != null ? !category.equals(product.category) : product.category != null) return false;
+        return mark != null ? mark.equals(product.mark) : product.mark == null;
     }
 
     @Override
