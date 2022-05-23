@@ -22,8 +22,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@SQLDelete(sql = "UPDATE user SET isActive = false WHERE id = ?")
-@Where(clause = "isActive = false")
+@SQLDelete(sql = "UPDATE user SET is_active = false WHERE id = ?")
+@Where(clause = "is_active = false")
 public class User implements UserDetails {
 
     @Id
@@ -34,6 +34,8 @@ public class User implements UserDetails {
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
@@ -60,12 +62,7 @@ public class User implements UserDetails {
         if( this.role != null) {
             return Collections.singleton(this.role);
         }
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
+        return Collections.emptySet();
     }
 
     @Override
