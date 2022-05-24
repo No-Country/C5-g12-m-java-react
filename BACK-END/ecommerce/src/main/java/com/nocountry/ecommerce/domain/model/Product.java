@@ -1,6 +1,7 @@
 package com.nocountry.ecommerce.domain.model;
 
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@SQLDelete(sql = "UPDATE product SET is_available = false WHERE id = ?")
 public class Product {
 
     @Id
