@@ -23,7 +23,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 @SQLDelete(sql = "UPDATE user SET is_active = false WHERE id = ?")
-@Where(clause = "is_active = false")
+@Where(clause = "is_active = true")
 public class User implements UserDetails {
 
     @Id
@@ -59,7 +59,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if( this.role != null) {
+        if (this.role != null) {
             return Collections.singleton(this.role);
         }
         return Collections.emptySet();
