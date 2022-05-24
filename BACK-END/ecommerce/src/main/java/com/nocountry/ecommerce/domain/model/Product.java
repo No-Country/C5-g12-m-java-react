@@ -25,6 +25,12 @@ public class Product {
     @Column(name = "price", updatable = true, nullable = false, precision = 3)
     private Double price;
 
+    @Column(name = "stock", updatable = true, nullable = false)
+    private Integer stock;
+
+    @Column(name = "available", updatable = true, nullable = false)
+    private Boolean isAvailable;
+
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "detail", nullable = false)
     private String detail;
