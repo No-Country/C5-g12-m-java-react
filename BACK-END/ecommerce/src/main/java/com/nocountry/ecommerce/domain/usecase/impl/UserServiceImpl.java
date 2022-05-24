@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    //update authenticated user
     public User updateUser(Long id, User user) {
         User userFromDb = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
 
