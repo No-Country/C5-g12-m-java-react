@@ -26,9 +26,9 @@ public class Product {
     private Double price;
 
     @Column(name = "stock", updatable = true, nullable = false)
-    private Integer stock;
+    private Long stock;
 
-    @Column(name = "available", updatable = true, nullable = false)
+    @Column(name = "is_available", updatable = true, nullable = false)
     private Boolean isAvailable;
 
     @Type(type = "org.hibernate.type.TextType")

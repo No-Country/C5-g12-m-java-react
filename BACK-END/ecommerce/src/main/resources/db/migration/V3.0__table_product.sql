@@ -7,10 +7,10 @@ create table product(
  price double not null,
  detail TEXT not null,
  image varchar(255) not null,
-
+ is_available boolean not null,
+ stock bigint not null,
  category_id bigint  null,
  mark_id bigint  null,
-
  constraint fk_category foreign key (category_id) references category(category_id),
  constraint fk_mark foreign key (mark_id) references mark(mark_id)
 )
