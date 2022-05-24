@@ -14,4 +14,6 @@ public interface UserMapper {
     UserDetailResponse userToCreateUserResponse(User user);
 
     UserDetailResponse userToUserDetailResponse(User user);
+
+    User updateUserRequestToUser(UpdateUserRequest updateUserRequest);
 }

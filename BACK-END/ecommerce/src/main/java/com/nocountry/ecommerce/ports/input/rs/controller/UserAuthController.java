@@ -16,8 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.AUTHENTICATION_URI;
 
-@RequestMapping("/auth")
+@RequestMapping(AUTHENTICATION_URI)
 @RestController
 public class UserAuthController {
     @Autowired
