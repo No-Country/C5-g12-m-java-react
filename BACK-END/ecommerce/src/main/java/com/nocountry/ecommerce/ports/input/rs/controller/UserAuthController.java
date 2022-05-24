@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,9 +48,9 @@ public class UserAuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserDetailResponse> getUserDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
+    public ResponseEntity<UserDetailResponse> getUserDetail(@AuthenticationPrincipal User user) {
 
-        UserDetailResponse userDetailResponse = userMapper.userToUserDetailResponse(userService.getMe(jwt));
+        UserDetailResponse userDetailResponse = userMapper.userToUserDetailResponse(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDetailResponse);
     }
 

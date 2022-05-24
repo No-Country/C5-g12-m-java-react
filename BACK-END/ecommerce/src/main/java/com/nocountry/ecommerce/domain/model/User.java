@@ -22,7 +22,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@SQLDelete(sql = "UPDATE user SET is_active = false WHERE id = ?")
+@SQLDelete(sql = "UPDATE user SET is_active = false WHERE user_id = ?")
 @Where(clause = "is_active = true")
 public class User implements UserDetails {
 
