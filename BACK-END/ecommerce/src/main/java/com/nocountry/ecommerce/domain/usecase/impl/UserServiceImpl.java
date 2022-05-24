@@ -78,9 +78,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User updateUser(Long id, User user) {
         User userFromDb = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
 
-        userFromDb.setFirstName(user.getFirstName());
-        userFromDb.setLastName(user.getLastName());
-        userFromDb.setPhone(user.getEmail());
+        if(user.getFirstName() != null) {
+            userFromDb.setFirstName(user.getFirstName());
+        }
+
+        if(user.getLastName() != null) {
+            userFromDb.setLastName(user.getLastName());
+        }
+
+        if(user.getPhone() != null) {
+            userFromDb.setPhone(user.getPhone());
+        }
 
         if (user.getPassword() != null) {
             userFromDb.setPassword(passwordEncoder.encode(user.getPassword()));
