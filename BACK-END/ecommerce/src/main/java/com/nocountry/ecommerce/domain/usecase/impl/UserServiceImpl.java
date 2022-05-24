@@ -1,5 +1,7 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
+import com.nocountry.ecommerce.common.exception.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.NotFoundException;
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.RoleRepository;
@@ -45,10 +47,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User createUser(User user) {
 
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("User with this email already exists");
+            throw new AlreadyExistsException("User with this email already exists");
         }
 
-        user.setRole(roleRepository.findByName(ROLE_USER).orElseThrow((() -> new RuntimeException("Role not found"))));
+        user.setRole(roleRepository.findByName(ROLE_USER).orElseThrow((() -> new NotFoundException("Role not found"))));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
@@ -75,7 +77,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     //update authenticated user
     public User updateUser(Long id, User user) {
-        User userFromDb = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User userFromDb = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
 
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -90,12 +92,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
         userRepository.delete(user);
     }
 
     public User getMe(String jwt) {
-        return userRepository.findByEmail(jwtUtils.extractUsername(jwt)).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findByEmail(jwtUtils.extractUsername(jwt)).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public boolean userMailAlreadyExists(String email) {
