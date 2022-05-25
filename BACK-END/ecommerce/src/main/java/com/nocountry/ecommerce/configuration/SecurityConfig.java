@@ -4,6 +4,7 @@ import com.nocountry.ecommerce.common.security.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.AUTHENTICATION_URI;
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.USER_URI;
 
 @EnableWebSecurity
 @Configuration
@@ -48,7 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers(AUTHENTICATION_URI + "*").permitAll()
+                .antMatchers(HttpMethod.PUT, USER_URI + "*").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, USER_URI + "*").hasAuthority("ADMIN")
                 .and().exceptionHandling()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
