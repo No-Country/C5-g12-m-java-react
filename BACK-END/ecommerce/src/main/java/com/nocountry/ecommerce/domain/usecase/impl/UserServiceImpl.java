@@ -102,12 +102,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
         userRepository.delete(user);
     }
-
-    public User getMe(String jwt) {
-        return userRepository.findByEmail(jwtUtils.extractUsername(jwt)).orElseThrow(() -> new NotFoundException("User not found"));
-    }
-
-    public boolean userMailAlreadyExists(String email) {
-        return userRepository.findByEmail(email).isPresent();
-    }
 }
