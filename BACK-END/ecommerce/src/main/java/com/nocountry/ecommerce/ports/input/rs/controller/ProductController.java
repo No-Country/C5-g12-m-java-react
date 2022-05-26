@@ -38,7 +38,7 @@ public class ProductController {
 
    //====================Posts====================//
 
-   @PostMapping
+   @PostMapping(path = "/create")
    public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductCreateRequest request) {
       long id = service.create(mapper.CreateProductToProduct(request));
       URI location = ServletUriComponentsBuilder.fromCurrentRequest()
