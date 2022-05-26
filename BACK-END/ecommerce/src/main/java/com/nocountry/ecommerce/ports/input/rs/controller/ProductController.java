@@ -1,7 +1,7 @@
 package com.nocountry.ecommerce.ports.input.rs.controller;
 
 import com.nocountry.ecommerce.domain.model.Product;
-import com.nocountry.ecommerce.domain.usecase.impl.IProductService;
+import com.nocountry.ecommerce.domain.usecase.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.PRODUCT_UR
 @RequiredArgsConstructor
 public class ProductController {
 
-   private final IProductService service;
+   private final ProductServiceImpl service;
 
    //====================Gets====================//
 
