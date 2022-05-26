@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-   @Query("select case when count(c) > 0 then true else false end from Product p where p.name = ?1")
-   boolean existByName(String name);
+   @Query("select p from Product p where p.name = ?1")
+   Optional<Product> findByName(String name);
 }

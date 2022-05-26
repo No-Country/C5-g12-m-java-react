@@ -1,6 +1,7 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
 import com.nocountry.ecommerce.common.exception.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.NotFoundException;
 import com.nocountry.ecommerce.domain.model.Category;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.model.Product;
@@ -14,71 +15,64 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-   private final ProductRepository repository;
+   private final ProductRepository productRepository;
    private final MarkRepository markRepository;
    private final CategoryRepository categoryRepository;
 
    //===================Find===================//
 
    public List<Product> findAll() {
-      return repository.findAll();
+      return productRepository.findAll();
    }
 
    //===================Create===================//
 
    @Transactional
-   public Long create(Product aux) {
-      if (repository.existByName(aux.getName()))
+   public Long create(Product product) {
+      if (productRepository.findByName(product.getName()).isPresent())
          throw new AlreadyExistsException("there is a product with the same name");
 
-      aux.setMark(findMark(aux.getMark().getId()));
-      aux.setCategory(findCategory(aux.getCategory().getId()));
+      Long idMark = product.getMark().getId();
+      Long idCategory = product.getCategory().getId();
 
-      repository.save(aux);
-      return aux.getId();
-   }
-
-   /**
-    * auxiliary methods to set mark and category
-    * findMark and findCategory
-    */
-
-   private Mark findMark(Long id) {
-      return markRepository.findById(id)
-         .orElseThrow(() -> new ResourceNotFoundException("mark not found"));
-   }
-
-   private Category findCategory(Long id) {
-      return categoryRepository.findById(id)
+      Mark mark = markRepository.findById(idMark)
+         .orElseThrow(() -> new NotFoundException("mark not found"));
+      Category category = categoryRepository.findById(idCategory)
          .orElseThrow(() -> new ResourceNotFoundException("category not found"));
+
+      product.setMark(mark);
+      product.setCategory(category);
+      productRepository.save(product);
+      return product.getId();
    }
 
    //===================Update===================//
 
    @Transactional
-   public void update(Long id, Product aux) {
-      if (repository.existByName(aux.getName()))
+   public void update(Long id, Product request) {
+      if (productRepository.findByName(request.getName()).isPresent())
          throw new AlreadyExistsException("there is a product with the same name");
 
-      Product product = repository.findById(id)
+      Product product = productRepository.findById(id)
          .orElseThrow(() -> new ResourceNotFoundException("product not found"));
-      product.setName(aux.getName());
-      product.setPrice(aux.getPrice());
-      product.setDetail(aux.getDetail());
-      product.setImage(aux.getImage());
-      repository.save(product);
+      product.setName(request.getName());
+      product.setPrice(request.getPrice());
+      product.setDetail(request.getDetail());
+      product.setImage(request.getImage());
+      productRepository.save(product);
    }
 
    //===================Delete===================//
 
    @Transactional
    public void delete(Long id) {
-      if (repository.findById(id).isPresent()) repository.deleteById(id);
+      if (productRepository.findById(id).isPresent()) productRepository.deleteById(id);
       else throw new ResourceNotFoundException("product not found by id: " + id);
    }
 }
