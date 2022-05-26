@@ -1,8 +1,8 @@
 package com.nocountry.ecommerce.ports.input.rs.mapper;
 
 import com.nocountry.ecommerce.domain.model.Product;
-import com.nocountry.ecommerce.ports.input.rs.request.CreateProductRequest;
-import com.nocountry.ecommerce.ports.input.rs.request.UpdateProductRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.ProductCreateRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.ProductUpdateRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.ProductDetails;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,9 +14,9 @@ public interface ProductMapper {
 
    @Mapping(source = "mark", target = "mark.id")
    @Mapping(source = "category", target = "category.id")
-   Product CreateProductToProduct(CreateProductRequest request);
+   Product CreateProductToProduct(ProductCreateRequest request);
 
-   Product UpdateProductToProduct(UpdateProductRequest request);
+   Product UpdateProductToProduct(ProductUpdateRequest request);
 
    ProductDetails ProductToProductDetails(Product product);
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateProductRequest {
+public class ProductUpdateRequest {
    private String name;
    private Double price;
    private String detail;
