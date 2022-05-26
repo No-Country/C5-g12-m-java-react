@@ -1,7 +1,7 @@
 package com.nocountry.ecommerce.configuration;
 
 import com.nocountry.ecommerce.common.security.filter.JwtRequestFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,15 +20,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.AUTHENTICATION_URI;
 import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.USER_URI;
 
+@RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserDetailsService userDetailService;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    private final UserDetailsService userDetailService;
+
+    private final JwtRequestFilter jwtRequestFilter;
+
+    private final PasswordEncoder encoder;
 
     @Override
     @Bean
@@ -36,15 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailService).passwordEncoder(encoder());
+        auth.userDetailsService(userDetailService).passwordEncoder(encoder);
     }
 
     @Override
