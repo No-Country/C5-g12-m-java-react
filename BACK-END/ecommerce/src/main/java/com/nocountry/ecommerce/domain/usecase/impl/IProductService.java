@@ -4,8 +4,10 @@ import com.nocountry.ecommerce.domain.model.Product;
 import com.nocountry.ecommerce.domain.repository.ProductRepository;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -17,6 +19,7 @@ public class IProductService implements ProductService {
 
    private final ProductRepository repository;
 
+   @Transactional(readOnly = true)
    public List<Product> findAll() {
       return repository.findAll();
    }
