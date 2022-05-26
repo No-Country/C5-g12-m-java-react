@@ -7,7 +7,7 @@ create table product(
  price double not null,
  detail TEXT not null,
  image varchar(255) not null,
- is_available boolean not null,
+ is_available boolean null,
  stock bigint not null,
  category_id bigint  null,
  mark_id bigint  null,
