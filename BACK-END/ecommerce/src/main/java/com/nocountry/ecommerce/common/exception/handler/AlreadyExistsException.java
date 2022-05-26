@@ -1,4 +1,4 @@
-package com.nocountry.ecommerce.common.exception;
+package com.nocountry.ecommerce.common.exception.handler;
 
 public class AlreadyExistsException extends RuntimeException{
     public AlreadyExistsException(String message) {
