@@ -1,7 +1,7 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.NotFoundException;
+import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.RoleRepository;
@@ -78,15 +78,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User updateUser(Long id, User user) {
         User userFromDb = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
 
-        if(user.getFirstName() != null) {
+        if (user.getFirstName() != null) {
             userFromDb.setFirstName(user.getFirstName());
         }
 
-        if(user.getLastName() != null) {
+        if (user.getLastName() != null) {
             userFromDb.setLastName(user.getLastName());
         }
 
-        if(user.getPhone() != null) {
+        if (user.getPhone() != null) {
             userFromDb.setPhone(user.getPhone());
         }
 
