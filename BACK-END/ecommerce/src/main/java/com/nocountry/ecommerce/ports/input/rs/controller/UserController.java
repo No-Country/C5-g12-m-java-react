@@ -5,6 +5,7 @@ import com.nocountry.ecommerce.domain.usecase.UserService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.UserMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.UpdateUserRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.UserDetailResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.USER_URI;
 
 @RequestMapping(USER_URI)
+@RequiredArgsConstructor
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @PutMapping("{id}")
     public ResponseEntity<UserDetailResponse> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserRequest userUpdate) {
