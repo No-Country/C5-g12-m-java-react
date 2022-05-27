@@ -1,7 +1,6 @@
 package com.nocountry.ecommerce.ports.input.rs.controller;
 
 import com.nocountry.ecommerce.common.security.services.AuthenticationService;
-import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.usecase.UserService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.UserMapper;
