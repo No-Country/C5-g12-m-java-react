@@ -1,13 +1,13 @@
 package com.nocountry.ecommerce.domain.repository;
 
-import com.nocountry.ecommerce.domain.model.Product;
+import com.nocountry.ecommerce.domain.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
-   Optional<Product> findByName(String name);
+    Optional<Role> findByName(String name);
 }
