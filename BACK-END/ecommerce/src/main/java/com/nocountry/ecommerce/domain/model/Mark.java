@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "mark")
 @NoArgsConstructor @AllArgsConstructor
-@SQLDelete(sql = "UPDATE mark SET is_available = false WHERE id = ?")
+@SQLDelete(sql = "UPDATE mark SET is_available = false WHERE mark_id = ?")
 @Getter @Setter
 @ToString
 public class Mark {

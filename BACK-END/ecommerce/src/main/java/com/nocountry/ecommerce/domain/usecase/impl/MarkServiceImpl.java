@@ -55,10 +55,8 @@ public class MarkServiceImpl implements MarkService<Mark> {
     @Override
     @Transactional
     public void delete(Long id) {
-        if (markRepository.findById(id).isPresent())
-            markRepository.deleteById(id);
-        else
-            throw new ResourceNotFoundException("mark not found by id: " + id);
+        if (markRepository.findById(id).isPresent()) markRepository.deleteById(id);
+        else throw new ResourceNotFoundException("mark not found by id: " + id);
     }
     
 }

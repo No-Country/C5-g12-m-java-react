@@ -6,17 +6,28 @@ import javax.validation.constraints.NotNull;
 
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.usecase.impl.MarkServiceImpl;
+import com.nocountry.ecommerce.ports.input.rs.mapper.MarkMapper;
+import com.nocountry.ecommerce.ports.input.rs.request.MarkCreateRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.MarkUpdateRequest;
+import com.nocountry.ecommerce.ports.input.rs.response.MarkDetails;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.MARK_URI;
+
+import java.net.URI;
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,41 +38,48 @@ import lombok.RequiredArgsConstructor;
 public class MarkController {
     
     private final MarkServiceImpl markServiceImpl;
+    private final MarkMapper mapper;
 
      //====================Gets====================//
 
     @GetMapping
-   public ResponseEntity<?> getAllProducts() throws Exception {
-      return ResponseEntity.ok(markServiceImpl.findAll());
+   public ResponseEntity<List<MarkDetails>> getAllProducts() throws Exception {
+      return ResponseEntity.ok(mapper.MarkListToMarkDetailList(markServiceImpl.findAll()));
    }
 
    //====================Get by id====================//
 
    @GetMapping(path = "/{id}")
-   public ResponseEntity<?> getById(@PathVariable("id") @NotNull @Valid Long id) throws Exception {
-      return ResponseEntity.ok(markServiceImpl.findById(id));
+   public ResponseEntity<MarkDetails> getById(@PathVariable("id") @NotNull @Valid Long id) throws Exception {
+      return ResponseEntity.ok(mapper.MarkToMarkDetails(markServiceImpl.findById(id)));
    }
 
 
     //====================Posts====================//
 
    @PostMapping(path = "/create")
-   public ResponseEntity<?> createMark(@RequestBody @Valid Mark mark) throws Exception {
-      return ResponseEntity.ok().body(markServiceImpl.save(mark));
+   public ResponseEntity<Void> createMark(@RequestBody @Valid MarkCreateRequest markCreateRequest) throws Exception{
+    Mark id = markServiceImpl.save(mapper.CreateMarkToMark(markCreateRequest));
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+       .path("{id}").buildAndExpand(id)
+       .toUri();
+    return ResponseEntity.created(location).build();
    }
 
-   //====================Puts====================//
+   //====================Patchs====================//
 
-   @PutMapping(path = "update/{id}")
-   public ResponseEntity<?> updateMark(@PathVariable("id") @NotNull @Valid Long id,@RequestBody @Valid Mark mark) throws Exception {
-      return ResponseEntity.ok().body(markServiceImpl.update(id, mark));
-   }
+   @PatchMapping(path = "/{id}")
+   @ResponseStatus(HttpStatus.NO_CONTENT)
+   public void updateMark(@PathVariable("id") @NotNull Long id,
+   @RequestBody @Valid MarkUpdateRequest request) {
+    markServiceImpl.update(id, mapper.UpdateMarkToMark(request));
+}
 
    //====================Deletes====================//
 
-   @DeleteMapping(path = "{id}")
-   public ResponseEntity<?> deleteMark(@PathVariable @NotBlank @Valid Long id) throws Exception {
+   @DeleteMapping(path = "/{id}")
+   @ResponseStatus(HttpStatus.NO_CONTENT)
+   public void deleteMark(@PathVariable @NotBlank @Valid Long id) {
       markServiceImpl.delete(id);
-      return ResponseEntity.ok().build();
    }
 }
