@@ -3,11 +3,15 @@ package com.nocountry.ecommerce.domain.model;
 import lombok.*;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.SQLDelete;
+
 import java.util.Objects;
 
 @Entity
 @Table(name = "mark")
 @NoArgsConstructor @AllArgsConstructor
+@SQLDelete(sql = "UPDATE mark SET is_available = false WHERE id = ?")
 @Getter @Setter
 @ToString
 public class Mark {
@@ -17,6 +21,8 @@ public class Mark {
    private Long id;
    @Column(name = "name", unique = true, nullable = false)
    private String name;
+   @Column(name = "is_available", updatable = true, nullable = false)
+   private Boolean isAvailable;
 
    @Override
    public boolean equals(Object o) {
