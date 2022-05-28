@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.usecase.impl.MarkServiceImpl;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.MARK_URI;
 
 import lombok.RequiredArgsConstructor;
 
