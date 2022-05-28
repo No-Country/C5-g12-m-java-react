@@ -28,7 +28,7 @@ public class MarkServiceImpl implements MarkService<Mark> {
 
     @Override
     @Transactional
-    public Mark findById(Long id) throws Exception {
+    public Mark findById(Long id){
         Mark mark = markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("mark not found"));
         return mark;
     }
