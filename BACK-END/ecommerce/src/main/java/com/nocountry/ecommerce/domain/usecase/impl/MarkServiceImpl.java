@@ -1,7 +1,7 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
 import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
+import com.nocountry.ecommerce.common.exception.handler.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.repository.MarkRepository;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
@@ -19,7 +19,7 @@ public class MarkServiceImpl implements MarkService {
 
     @Transactional
     public Mark getByIdIfExists(Long id) {
-        return markRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class MarkServiceImpl implements MarkService {
     @Override
     @Transactional
     public Mark update(Long id, Mark entity) {
-        Mark mark = markRepository.findById(id).orElseThrow(() -> new com.nocountry.ecommerce.common.exception.handler.ResourceNotFoundException(id));
+        Mark mark = markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
         isExistsName(entity.getName());
         mark.setName(entity.getName());
