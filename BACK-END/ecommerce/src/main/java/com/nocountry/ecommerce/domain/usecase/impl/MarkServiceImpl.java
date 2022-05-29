@@ -31,7 +31,7 @@ public class MarkServiceImpl implements MarkService {
     @Override
     @Transactional
     public Long save(Mark entity) {
-        isExistsName(entity.getName());
+        existsName(entity.getName());
         return markRepository.save(entity).getId();
     }
 
@@ -40,12 +40,12 @@ public class MarkServiceImpl implements MarkService {
     public Mark update(Long id, Mark entity) {
         Mark mark = markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
-        isExistsName(entity.getName());
+        existsName(entity.getName());
         mark.setName(entity.getName());
         return mark;
     }
 
-    private void isExistsName(String name) {
+    private void existsName(String name) {
         if (markRepository.findByName(name).isPresent())
             throw new AlreadyExistsException("this name is already in use ");
     }
