@@ -35,10 +35,10 @@ public class MarkServiceImpl implements MarkService<Mark> {
 
     @Override
     @Transactional
-    public Mark save(Mark entity) throws Exception {
+    public Long save(Mark entity) {
         if(markRepository.findByName(entity.getName()) != null)
-        throw new Exception("there is a mark with the same name");
-     return markRepository.save(entity);
+        throw new AlreadyExistsException("there is a mark with the same name");
+     return markRepository.save(entity).getId();
     }
 
     @Override

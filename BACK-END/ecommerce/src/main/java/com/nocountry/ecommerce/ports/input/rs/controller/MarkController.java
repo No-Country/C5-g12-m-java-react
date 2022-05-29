@@ -58,10 +58,10 @@ public class MarkController {
     //====================Posts====================//
 
    @PostMapping(path = "/create")
-   public ResponseEntity<Void> createMark(@RequestBody @Valid MarkCreateRequest markCreateRequest) throws Exception{
-    Mark id = markServiceImpl.save(mapper.CreateMarkToMark(markCreateRequest));
+   public ResponseEntity<Void> createMark(@RequestBody @Valid MarkCreateRequest markCreateRequest){
+    long id = markServiceImpl.save(mapper.CreateMarkToMark(markCreateRequest));
     URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-       .path("{id}").buildAndExpand(id)
+       .path("/{id}").buildAndExpand(id)
        .toUri();
     return ResponseEntity.created(location).build();
    }
