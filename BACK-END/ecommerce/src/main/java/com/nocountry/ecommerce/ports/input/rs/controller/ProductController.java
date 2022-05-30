@@ -57,7 +57,7 @@ public class ProductController {
         service.update(id, mapper.UpdateProductToProduct(request));
     }
 
-    @PatchMapping(path = "/{id}")
+    @PatchMapping(path = "/available/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAvailable(@PathVariable("id") @NotNull Long id) {
         service.updateAvailable(id);

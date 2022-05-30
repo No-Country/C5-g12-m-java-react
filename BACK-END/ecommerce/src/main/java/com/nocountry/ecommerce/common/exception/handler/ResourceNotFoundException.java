@@ -8,4 +8,5 @@ import lombok.Getter;
 public class ResourceNotFoundException extends RuntimeException {
 
     private final Object resourceId;
+
 }

@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         Mark mark = markRepository.findById(idMark)
                 .orElseThrow(() -> new NotFoundException("mark not found"));
         Category category = categoryRepository.findById(idCategory)
-                .orElseThrow(() -> new ResourceNotFoundException("category not found"));
+                .orElseThrow(() -> new NotFoundException("category not found"));
 
         product.setMark(mark);
         product.setCategory(category);
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
             throw new AlreadyExistsException("there is a product with the same name");
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("product not found"));
+                .orElseThrow(() -> new NotFoundException("product not found"));
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setDetail(request.getDetail());
