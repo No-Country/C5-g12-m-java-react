@@ -2,7 +2,7 @@ package com.nocountry.ecommerce.ports.input.rs.mapper;
 
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.ports.input.rs.request.MarkRequest;
-import com.nocountry.ecommerce.ports.input.rs.request.MarkUpdateRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.MarkUpdateAvailable;
 import com.nocountry.ecommerce.ports.input.rs.response.MarkDetails;
 import org.mapstruct.Mapper;
 
@@ -14,7 +14,7 @@ public interface MarkMapper {
 
     Mark MarkRequestToMark(MarkRequest request);
 
-    Mark MarkUpdateRequestToMark(MarkUpdateRequest request);
+    Mark MarkUpdateAvailableToMark(MarkUpdateAvailable request);
 
     MarkDetails MarkToMarkDetails(Mark mark);
 

@@ -3,7 +3,7 @@ package com.nocountry.ecommerce.ports.input.rs.controller;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.MarkMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.MarkRequest;
-import com.nocountry.ecommerce.ports.input.rs.request.MarkUpdateRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.MarkUpdateAvailable;
 import com.nocountry.ecommerce.ports.input.rs.response.MarkDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,9 +59,16 @@ public class MarkController {
     @PatchMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateMark(@Valid @NotNull @PathVariable("id") Long id,
-                           @RequestBody MarkUpdateRequest request) {
-        markService.update(id, mapper.MarkUpdateRequestToMark(request));
+                           @RequestBody MarkRequest request) {
+        markService.update(id, mapper.MarkRequestToMark(request));
     }
+
+    @PatchMapping(path = "/available/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateAvailable(@Valid @NotNull @PathVariable("id") Long id) {
+        markService.updateAvailable(id);
+    }
+
 
     //====================Deletes====================//
 

@@ -2,6 +2,7 @@ package com.nocountry.ecommerce.domain.model;
 
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLUpdate;
 
 import javax.persistence.*;
 import java.util.Objects;
