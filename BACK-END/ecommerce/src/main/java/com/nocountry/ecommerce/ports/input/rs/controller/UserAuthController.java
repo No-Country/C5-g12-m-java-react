@@ -3,6 +3,7 @@ package com.nocountry.ecommerce.ports.input.rs.controller;
 import com.nocountry.ecommerce.common.security.services.AuthenticationService;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.usecase.UserService;
+import com.nocountry.ecommerce.ports.input.rs.mapper.AuthenticationMapper;
 import com.nocountry.ecommerce.ports.input.rs.mapper.UserMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.AuthRequest;
 import com.nocountry.ecommerce.ports.input.rs.request.RegisterRequest;
@@ -28,6 +29,8 @@ public class UserAuthController {
 
     private final UserMapper userMapper;
 
+    private final AuthenticationMapper authMapper;
+
     private final AuthenticationService authenticationService;
 
 
@@ -36,14 +39,18 @@ public class UserAuthController {
 
         User createdUser = userService.createUser(userMapper.registerRequestToUser(registerRequest));
         UserDetailResponse userDetailResponse = userMapper.userToCreateUserResponse(createdUser);
-        AuthResponse authResponse = new AuthResponse(authenticationService.login(createdUser.getEmail(), registerRequest.getPassword()));
+        AuthResponse authResponse = authMapper
+                .jwtToAuthResponse(authenticationService
+                        .login(createdUser.getEmail(), registerRequest.getPassword()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponse(userDetailResponse, authResponse));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authenticationRequest) {
-        AuthResponse authResponse = new AuthResponse(authenticationService.login(authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
+        AuthResponse authResponse = authMapper
+                .jwtToAuthResponse(authenticationService
+                        .login(authRequest.getEmail(), authRequest.getPassword()));
         return ResponseEntity.status(HttpStatus.OK).body(authResponse);
     }
 

@@ -50,13 +50,21 @@ public class JwtUtils {
     }
 
 
-    public String generateToken(UserDetails userDetails) {
+    public Jwt generateJwt(UserDetails userDetails){
+
+        return new Jwt(generateToken(userDetails,10),
+                generateToken(userDetails,30));
+
+    }
+
+
+    public String generateToken(UserDetails userDetails, Integer timeExpiration) {
 
         return Jwts.builder()
                 .claim("role", userDetails.getAuthorities().getClass().getName())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * TOKEN_EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + timeExpiration * 60 * 60 * TOKEN_EXPIRATION_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

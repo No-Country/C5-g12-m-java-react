@@ -1,5 +1,6 @@
 package com.nocountry.ecommerce.common.security.services;
 
+import com.nocountry.ecommerce.common.security.utils.Jwt;
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,9 +17,9 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtil;
 
-    public String login(String email, String password) {
+    public Jwt login(String email, String password) {
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        return jwtUtil.generateToken(userDetails);
+        return jwtUtil.generateJwt(userDetails);
     }
 }
