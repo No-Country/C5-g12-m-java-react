@@ -4,7 +4,7 @@ import com.nocountry.ecommerce.domain.model.Mark;
 
 import java.util.List;
 
-public interface MarkService {
+public interface MarkService extends ActiveAvailable {
 
     Mark getByIdIfExists(Long id);
 
@@ -13,8 +13,6 @@ public interface MarkService {
     Long save(Mark entity);
 
     void update(Long id, Mark request);
-
-    void updateAvailable(Long id);
 
     void deleteById(Long id);
 
