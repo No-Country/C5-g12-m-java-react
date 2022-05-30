@@ -1,62 +1,69 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
 import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.repository.MarkRepository;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
-
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class MarkServiceImpl implements MarkService<Mark> {
+public class MarkServiceImpl implements MarkService {
 
     private final MarkRepository markRepository;
 
+    @Transactional
+    public Mark getByIdIfExists(Long id) {
+        return markRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
     @Override
     @Transactional
-    public List<Mark> findAll() throws Exception {
+    public List<Mark> findAll() {
         return markRepository.findAll();
     }
 
     @Override
     @Transactional
-    public Mark findById(Long id){
-        Mark mark = markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("mark not found"));
-        return mark;
+    public Long save(Mark request) {
+        existsName(request.getName());
+        return markRepository.save(request).getId();
     }
 
     @Override
     @Transactional
-    public Long save(Mark entity) {
-        if(markRepository.findByName(entity.getName()) != null)
-        throw new AlreadyExistsException("there is a mark with the same name");
-     return markRepository.save(entity).getId();
+    public void update(Long id, Mark request) {
+        Mark mark = markRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+
+        existsName(request.getName());
+        mark.setName(request.getName());
     }
 
     @Override
     @Transactional
-    public Mark update(Long id, Mark entity){
-        Mark mark = markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("mark not found"));
-        if(markRepository.findByName(entity.getName()) != null){
-            throw new AlreadyExistsException("there is a product with the same name");
-        }
-        mark.setName(entity.getName());
-        return mark;
+    public void updateAvailable(Long id) {
+        Mark mark = markRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+
+        mark.setIsAvailable(true);
+        markRepository.save(mark);
     }
+
+    private void existsName(String name) {
+        if (markRepository.findByName(name).isPresent())
+            throw new AlreadyExistsException("this name is already in use ");
+    }
+
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        if (markRepository.findById(id).isPresent()) markRepository.deleteById(id);
-        else throw new ResourceNotFoundException("mark not found by id: " + id);
+    public void deleteById(Long id) {
+        Mark mark = markRepository.findById(id).orElseThrow(() -> new com.nocountry.ecommerce.common.exception.handler.ResourceNotFoundException(id));
+        markRepository.deleteById(mark.getId());
     }
-    
+
 }

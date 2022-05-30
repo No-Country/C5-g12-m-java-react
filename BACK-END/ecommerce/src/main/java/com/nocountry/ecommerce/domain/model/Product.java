@@ -31,7 +31,7 @@ public class Product {
     private Long stock;
 
     @Column(name = "is_available", updatable = true)
-    private Boolean isAvailable;
+    private Boolean isAvailable = true;
 
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "detail", nullable = false)

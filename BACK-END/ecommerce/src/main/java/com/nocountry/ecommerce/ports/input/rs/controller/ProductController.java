@@ -1,6 +1,6 @@
 package com.nocountry.ecommerce.ports.input.rs.controller;
 
-import com.nocountry.ecommerce.domain.usecase.impl.ProductServiceImpl;
+import com.nocountry.ecommerce.domain.usecase.ProductService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.ProductMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductCreateRequest;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductUpdateRequest;
@@ -24,44 +24,50 @@ import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.PRODUCT_UR
 @RequiredArgsConstructor
 public class ProductController {
 
-   private final ProductServiceImpl service;
-   private final ProductMapper mapper;
+    private final ProductService service;
+    private final ProductMapper mapper;
 
-   //====================Gets====================//
+    //====================Gets====================//
 
-   @GetMapping
-   public ResponseEntity<List<ProductDetails>> getAllProducts() {
-      return ResponseEntity.ok(
-         mapper.ProductListToProductDetailList(service.findAll())
-      );
-   }
+    @GetMapping
+    public ResponseEntity<List<ProductDetails>> getAllProducts() {
+        return ResponseEntity.ok(
+                mapper.ProductListToProductDetailList(service.findAll())
+        );
+    }
 
-   //====================Posts====================//
+    //====================Posts====================//
 
-   @PostMapping(path = "/create")
-   public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductCreateRequest request) {
-      long id = service.create(mapper.CreateProductToProduct(request));
-      URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-         .path("{id}").buildAndExpand(id)
-         .toUri();
-      return ResponseEntity.created(location).build();
-   }
+    @PostMapping(path = "/create")
+    public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductCreateRequest request) {
+        long id = service.create(mapper.CreateProductToProduct(request));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("{id}").buildAndExpand(id)
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
 
-   //====================Puts====================//
+    //====================Puts====================//
 
 
-   @PatchMapping(path = "/{id}")
-   @ResponseStatus(HttpStatus.NO_CONTENT)
-   public void updateProduct(@PathVariable("id") @NotNull Long id,
-                             @RequestBody @Valid ProductUpdateRequest request) {
-      service.update(id, mapper.UpdateProductToProduct(request));
-   }
+    @PatchMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateProduct(@PathVariable("id") @NotNull Long id,
+                              @RequestBody @Valid ProductUpdateRequest request) {
+        service.update(id, mapper.UpdateProductToProduct(request));
+    }
 
-   //====================Deletes====================//
+    @PatchMapping(path = "/available/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateAvailable(@PathVariable("id") @NotNull Long id) {
+        service.updateAvailable(id);
+    }
 
-   @DeleteMapping(path = "/{id}")
-   @ResponseStatus(HttpStatus.NO_CONTENT)
-   public void deleteProduct(@PathVariable @NotBlank @Valid Long id) {
-      service.delete(id);
-   }
+    //====================Deletes====================//
+
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable @NotBlank @Valid Long id) {
+        service.delete(id);
+    }
 }

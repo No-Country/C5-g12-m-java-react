@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MarkUpdateRequest {
-    private String name;
+public class MarkUpdateAvailable {
+
+    private boolean isAvailable;
 }

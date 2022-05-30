@@ -1,11 +1,20 @@
 package com.nocountry.ecommerce.domain.usecase;
 
+import com.nocountry.ecommerce.domain.model.Mark;
+
 import java.util.List;
 
-public interface MarkService<Mark> {
-    public List<Mark> findAll() throws Exception;
-    public Mark findById(Long id) throws Exception;
-    public Long save(Mark entity) throws Exception;
-    public Mark update(Long id, Mark entity) throws Exception;
-    public void delete(Long id) throws Exception;
+public interface MarkService extends ActiveAvailable {
+
+    Mark getByIdIfExists(Long id);
+
+    List<Mark> findAll();
+
+    Long save(Mark entity);
+
+    void update(Long id, Mark request);
+
+    void deleteById(Long id);
+
+
 }
