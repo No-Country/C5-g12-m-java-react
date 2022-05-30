@@ -2,7 +2,7 @@ package com.nocountry.ecommerce.ports.input.rs.controller;
 
 import com.nocountry.ecommerce.domain.usecase.MarkService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.MarkMapper;
-import com.nocountry.ecommerce.ports.input.rs.request.MarkCreateRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.MarkRequest;
 import com.nocountry.ecommerce.ports.input.rs.request.MarkUpdateRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.MarkDetails;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +30,14 @@ public class MarkController {
     //====================Gets====================//
 
     @GetMapping
-    public ResponseEntity<List<MarkDetails>> getAllProducts() throws Exception {
+    public ResponseEntity<List<MarkDetails>> getAllProducts() {
         return ResponseEntity.ok(mapper.MarkListToMarkDetailList(markService.findAll()));
     }
 
     //====================Get by id====================//
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<MarkDetails> getById(@Valid @NotNull @PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<MarkDetails> getById(@Valid @NotNull @PathVariable("id") Long id) {
         return ResponseEntity.ok(mapper.MarkToMarkDetails(markService.getByIdIfExists(id)));
     }
 
@@ -45,8 +45,9 @@ public class MarkController {
     //====================Posts====================//
 
     @PostMapping(path = "/create")
-    public ResponseEntity<Void> createMark(@RequestBody MarkCreateRequest markCreateRequest) {
-        long id = markService.save(mapper.CreateMarkToMark(markCreateRequest));
+    public ResponseEntity<Void> createMark(@RequestBody MarkRequest markCreateRequest) {
+        long id = markService.save(mapper.MarkRequestToMark(markCreateRequest));
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(id)
                 .toUri();
@@ -59,7 +60,7 @@ public class MarkController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateMark(@Valid @NotNull @PathVariable("id") Long id,
                            @RequestBody MarkUpdateRequest request) {
-        markService.update(id, mapper.UpdateMarkToMark(request));
+        markService.update(id, mapper.MarkUpdateRequestToMark(request));
     }
 
     //====================Deletes====================//

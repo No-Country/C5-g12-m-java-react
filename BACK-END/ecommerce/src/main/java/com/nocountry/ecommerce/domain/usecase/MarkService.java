@@ -12,7 +12,7 @@ public interface MarkService {
 
     Long save(Mark entity);
 
-    Mark update(Long id, Mark entity);
+    void update(Long id, Mark entity);
 
     void deleteById(Long id);
 }

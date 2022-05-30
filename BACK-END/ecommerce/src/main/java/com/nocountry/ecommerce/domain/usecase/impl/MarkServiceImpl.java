@@ -30,19 +30,19 @@ public class MarkServiceImpl implements MarkService {
 
     @Override
     @Transactional
-    public Long save(Mark entity) {
-        existsName(entity.getName());
-        return markRepository.save(entity).getId();
+    public Long save(Mark request) {
+        existsName(request.getName());
+        return markRepository.save(request).getId();
     }
 
     @Override
     @Transactional
-    public Mark update(Long id, Mark entity) {
+    public void update(Long id, Mark request) {
         Mark mark = markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
-        existsName(entity.getName());
-        mark.setName(entity.getName());
-        return mark;
+        existsName(request.getName());
+        mark.setName(request.getName());
+        mark.setIsAvailable(request.getIsAvailable());
     }
 
     private void existsName(String name) {
