@@ -2,7 +2,6 @@ package com.nocountry.ecommerce.common.security.filter;
 
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

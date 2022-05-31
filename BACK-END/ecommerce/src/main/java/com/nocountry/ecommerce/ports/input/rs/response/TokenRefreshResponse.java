@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDetailResponse {
+public class TokenRefreshResponse {
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
+    @NotEmpty
+    @NotBlank
+    private String jwtRefresh;
 }
