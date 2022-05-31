@@ -1,15 +1,23 @@
 package com.nocountry.ecommerce.common.exception.error;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+<<<<<<< .merge_file_a14760
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Setter;
+=======
+import lombok.Builder;
+>>>>>>> .merge_file_a16276
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
 
+<<<<<<< .merge_file_a14760
 @AllArgsConstructor
 @Setter
+=======
+@Value
+>>>>>>> .merge_file_a16276
 @Builder
 @JsonPropertyOrder({"code", "detail", "field", "value", "location"})
 public class ErrorDetails {

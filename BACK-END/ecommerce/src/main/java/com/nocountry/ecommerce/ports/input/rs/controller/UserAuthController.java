@@ -1,21 +1,26 @@
 package com.nocountry.ecommerce.ports.input.rs.controller;
 
 import com.nocountry.ecommerce.common.security.services.AuthenticationService;
+
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.usecase.UserService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.AuthenticationMapper;
+
 import com.nocountry.ecommerce.ports.input.rs.mapper.UserMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.AuthRequest;
 import com.nocountry.ecommerce.ports.input.rs.request.RegisterRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.AuthResponse;
 import com.nocountry.ecommerce.ports.input.rs.response.RegisterResponse;
+
 import com.nocountry.ecommerce.ports.input.rs.response.TokenRefreshResponse;
+
 import com.nocountry.ecommerce.ports.input.rs.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +53,7 @@ public class UserAuthController {
 
         User createdUser = userService.createUser(userMapper.registerRequestToUser(registerRequest));
         UserDetailResponse userDetailResponse = userMapper.userToCreateUserResponse(createdUser);
+
         AuthResponse authResponse = authMapper
                 .jwtToAuthResponse(authenticationService
                         .login(createdUser.getEmail(), registerRequest.getPassword()));
@@ -56,6 +62,7 @@ public class UserAuthController {
     }
 
     @PostMapping("/login")
+
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
         AuthResponse authResponse = authMapper
                 .jwtToAuthResponse(authenticationService
@@ -70,7 +77,6 @@ public class UserAuthController {
         tokenRefreshResponse.setJwtRefresh(authenticationService.refresh(request, response));
         return ResponseEntity.status(HttpStatus.OK).body(tokenRefreshResponse);
     }
-
 
     @GetMapping("/me")
     public ResponseEntity<UserDetailResponse> getUserDetail(@AuthenticationPrincipal User user) {

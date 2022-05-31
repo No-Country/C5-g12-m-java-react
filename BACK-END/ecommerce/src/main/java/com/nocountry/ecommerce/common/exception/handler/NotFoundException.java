@@ -1,5 +1,6 @@
 package com.nocountry.ecommerce.common.exception.handler;
 
+<<<<<<< .merge_file_a04392
 import com.nocountry.ecommerce.common.exception.error.ApplicationErrorCode;
 import com.nocountry.ecommerce.common.exception.error.ErrorDetails;
 import com.nocountry.ecommerce.common.exception.error.ErrorLocation;
@@ -23,4 +24,13 @@ public class NotFoundException extends RuntimeException {
     }
 
 
+=======
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class NotFoundException extends RuntimeException {
+    private final Object resourceId;
+>>>>>>> .merge_file_a11436
 }
