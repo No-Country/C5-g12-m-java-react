@@ -42,7 +42,7 @@ public class AuthenticationService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        return jwtUtil.generateToken(userDetails,10);
+        return jwtUtil.generateToken(userDetails, 3);
 
     }
 

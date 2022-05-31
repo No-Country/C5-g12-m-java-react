@@ -20,11 +20,9 @@ import java.util.stream.Collectors;
 public class JwtUtils {
 
     @Value("${jwt.secretKey}")
-    private String SECRET_KEY;
+    private static String SECRET_KEY;
 
     private SecretKey key;
-
-    private static final int TOKEN_EXPIRATION_TIME = 10;
 
     @PostConstruct
     protected void init() {
@@ -59,10 +57,8 @@ public class JwtUtils {
 
 
     public Jwt generateJwt(UserDetails userDetails) {
-
         return new Jwt(generateToken(userDetails, 3),
-                generateToken(userDetails, 30));
-
+                generateToken(userDetails, 60));
     }
 
 
@@ -76,8 +72,6 @@ public class JwtUtils {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-
-
 
 
 }
