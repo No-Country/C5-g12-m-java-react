@@ -1,5 +1,4 @@
 package com.nocountry.ecommerce.common.exception.error;
-
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AllArgsConstructor;
@@ -13,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Setter
 @Builder
+
 @JsonPropertyOrder({"code", "detail", "field", "value", "location"})
 public class ErrorDetails {
 

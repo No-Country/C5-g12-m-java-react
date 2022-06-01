@@ -1,4 +1,3 @@
-
 INSERT INTO mark (mark_id, name, is_available)
 VALUES           (1, 'Logitech', TRUE),
                  (2, 'Genius', TRUE),

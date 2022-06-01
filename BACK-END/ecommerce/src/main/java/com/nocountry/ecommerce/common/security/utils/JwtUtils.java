@@ -7,7 +7,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -17,16 +16,13 @@ import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-
 @Component
 public class JwtUtils {
 
     @Value("${jwt.secretKey}")
-
-    private  String SECRET_KEY;
+    private String SECRET_KEY;
 
     private SecretKey key;
-
 
     @PostConstruct
     protected void init() {
@@ -54,7 +50,6 @@ public class JwtUtils {
         return extractExpiration(token).before(new Date());
     }
 
-
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
@@ -77,5 +72,6 @@ public class JwtUtils {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
 }

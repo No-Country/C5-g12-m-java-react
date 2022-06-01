@@ -1,6 +1,5 @@
 package com.nocountry.ecommerce.common.security.services;
 
-
 import com.nocountry.ecommerce.common.security.utils.Jwt;
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -9,13 +8,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 
 @Service
@@ -24,7 +21,6 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtil;
-
     private final UserDetailsService userDetailsService;
 
     public Jwt login(String email, String password) {
@@ -49,4 +45,6 @@ public class AuthenticationService {
         return jwtUtil.generateToken(userDetails, 3);
 
     }
+
+
 }

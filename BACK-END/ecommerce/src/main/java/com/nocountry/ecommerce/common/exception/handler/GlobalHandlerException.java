@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalHandlerException {
 
-
     //=====================Bad Request=====================//
 
 
@@ -73,4 +72,6 @@ public class GlobalHandlerException {
     })
     protected void unauthorizedExceptionHandler() {
     }
+
+
 }
