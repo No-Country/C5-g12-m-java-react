@@ -1,8 +1,8 @@
-INSERT INTO mark (mark_id, name)
-VALUES           (1, 'Logitech'),
-                 (2, 'Genius'),
-                 (3, 'Noganet'),
-                 (4, 'Redragon'),
-                 (5, 'Razer'),
-                 (6, 'Lenovo'),
-                 (7, 'Noga');
+INSERT INTO mark (mark_id, name, is_available)
+VALUES           (1, 'Logitech', TRUE),
+                 (2, 'Genius', TRUE),
+                 (3, 'Noganet', TRUE),
+                 (4, 'Redragon', TRUE),
+                 (5, 'Razer', TRUE),
+                 (6, 'Lenovo', TRUE),
+                 (7, 'Noga', TRUE);
