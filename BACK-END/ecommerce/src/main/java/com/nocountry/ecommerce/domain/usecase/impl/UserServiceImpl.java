@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final JwtUtils jwtUtils;
 
-
     private final static String ROLE_USER = "USER";
 
 
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with the email: " + email));
     }
 
 
@@ -62,7 +61,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User updateUser(Long id, User user) {
       
-        User userFromDb = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        User userFromDb = userRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
 
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -75,7 +75,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = userRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("User not found with the id: " + id));
         userRepository.delete(user);
     }
 }

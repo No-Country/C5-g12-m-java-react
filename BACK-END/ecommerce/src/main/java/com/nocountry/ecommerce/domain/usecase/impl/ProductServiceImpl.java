@@ -35,15 +35,15 @@ public class ProductServiceImpl implements ProductService {
 
     public Long create(Product product) {
         if (productRepository.findByName(product.getName()).isPresent())
-            throw new AlreadyExistsException("there is a product with the same name");
+            throw new AlreadyExistsException("the name " + product.getName() + " is already in use");
 
         Long idMark = product.getMark().getId();
         Long idCategory = product.getCategory().getId();
 
         Mark mark = markRepository.findById(idMark)
-                .orElseThrow(() -> new NotFoundException("mark not found"));
+                .orElseThrow(() -> new NotFoundException("Mark not found by id: " + idMark));
         Category category = categoryRepository.findById(idCategory)
-                .orElseThrow(() -> new NotFoundException("category not found"));
+                .orElseThrow(() -> new NotFoundException("Category not found id: " + idCategory));
 
         product.setMark(mark);
         product.setCategory(category);
@@ -55,10 +55,10 @@ public class ProductServiceImpl implements ProductService {
 
     public void update(Long id, Product request) {
         if (productRepository.findByName(request.getName()).isPresent())
-            throw new AlreadyExistsException("there is a product with the same name");
+            throw new AlreadyExistsException("The name " + request.getName() + " is already in use");
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("product not found"));
+                .orElseThrow(() -> new NotFoundException("Product not found by id: " + id));
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setDetail(request.getDetail());
@@ -68,7 +68,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateAvailable(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Product product = productRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("Product not found by id: " + id));
 
         product.setIsAvailable(true);
         productRepository.save(product);
@@ -77,8 +78,9 @@ public class ProductServiceImpl implements ProductService {
     //===================Delete===================//
 
     public void delete(Long id) {
-        if (productRepository.findById(id).isPresent()) productRepository.deleteById(id);
-        else throw new ResourceNotFoundException("product not found by id: " + id);
+        Product product = productRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("Product not found with id: " + id));
+        productRepository.delete(product);
     }
 
 }

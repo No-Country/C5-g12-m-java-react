@@ -19,7 +19,8 @@ public class MarkServiceImpl implements MarkService {
 
     @Transactional
     public Mark getByIdIfExists(Long id) {
-        return markRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return markRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
     }
 
     @Override
@@ -38,7 +39,8 @@ public class MarkServiceImpl implements MarkService {
     @Override
     @Transactional
     public void update(Long id, Mark request) {
-        Mark mark = markRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        Mark mark = markRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
 
         existsName(request.getName());
         mark.setName(request.getName());
@@ -47,7 +49,8 @@ public class MarkServiceImpl implements MarkService {
     @Override
     @Transactional
     public void updateAvailable(Long id) {
-        Mark mark = markRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        Mark mark = markRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
 
         mark.setIsAvailable(true);
         markRepository.save(mark);
@@ -55,14 +58,15 @@ public class MarkServiceImpl implements MarkService {
 
     private void existsName(String name) {
         if (markRepository.findByName(name).isPresent())
-            throw new AlreadyExistsException("this name is already in use ");
+            throw new AlreadyExistsException("The name: " + name + " is already in use");
     }
 
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Mark mark = markRepository.findById(id).orElseThrow(() -> new com.nocountry.ecommerce.common.exception.handler.ResourceNotFoundException(id));
+        Mark mark = markRepository.findById(id)
+           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
         markRepository.deleteById(mark.getId());
     }
 
