@@ -5,12 +5,18 @@ import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.usecase.UserService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.AuthenticationMapper;
+
+import com.nocountry.ecommerce.domain.model.User;
+import com.nocountry.ecommerce.domain.usecase.UserService;
+
 import com.nocountry.ecommerce.ports.input.rs.mapper.UserMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.AuthRequest;
 import com.nocountry.ecommerce.ports.input.rs.request.RegisterRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.AuthResponse;
 import com.nocountry.ecommerce.ports.input.rs.response.RegisterResponse;
+
 import com.nocountry.ecommerce.ports.input.rs.response.TokenRefreshResponse;
+
 import com.nocountry.ecommerce.ports.input.rs.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.AUTHENTICATION_URI;
@@ -34,13 +42,7 @@ public class UserAuthController {
 
     private final UserMapper userMapper;
 
-    private final AuthenticationMapper authMapper;
-
     private final AuthenticationService authenticationService;
-
-    private final JwtUtils jwtUtils;
-
-    private final UserDetailsService userDetailsService;
 
 
     @PostMapping("/register")
@@ -48,6 +50,7 @@ public class UserAuthController {
 
         User createdUser = userService.createUser(userMapper.registerRequestToUser(registerRequest));
         UserDetailResponse userDetailResponse = userMapper.userToCreateUserResponse(createdUser);
+
         AuthResponse authResponse = authMapper
                 .jwtToAuthResponse(authenticationService
                         .login(createdUser.getEmail(), registerRequest.getPassword()));

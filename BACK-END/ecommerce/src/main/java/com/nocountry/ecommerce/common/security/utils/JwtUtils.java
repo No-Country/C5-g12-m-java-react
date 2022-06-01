@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+
 @Component
 public class JwtUtils {
 
@@ -23,6 +24,7 @@ public class JwtUtils {
     private  String SECRET_KEY;
 
     private SecretKey key;
+
 
     @PostConstruct
     protected void init() {
@@ -50,6 +52,7 @@ public class JwtUtils {
         return extractExpiration(token).before(new Date());
     }
 
+
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
@@ -69,9 +72,11 @@ public class JwtUtils {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + timeExpiration * 60 * 1000))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-    }
 
+
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
 
 }

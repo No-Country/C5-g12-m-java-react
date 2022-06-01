@@ -11,6 +11,7 @@ import com.nocountry.ecommerce.domain.repository.MarkRepository;
 import com.nocountry.ecommerce.domain.repository.ProductRepository;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+
 
     private final ProductRepository productRepository;
     private final MarkRepository markRepository;

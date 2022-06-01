@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class RegisterResponse {
 
     private UserDetailResponse user;
-
+  
     private AuthResponse auth;
 
 }

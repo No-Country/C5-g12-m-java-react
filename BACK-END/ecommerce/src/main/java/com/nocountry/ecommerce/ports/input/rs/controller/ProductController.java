@@ -1,5 +1,6 @@
 package com.nocountry.ecommerce.ports.input.rs.controller;
 
+
 import com.nocountry.ecommerce.domain.usecase.ProductService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.ProductMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductCreateRequest;
@@ -23,6 +24,7 @@ import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.PRODUCT_UR
 @RequestMapping(PRODUCT_URI)
 @RequiredArgsConstructor
 public class ProductController {
+
 
     private final ProductService service;
     private final ProductMapper mapper;
