@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class ProductFilterRequest {
+   private String name;
    private String category;
    private String mark;
    private Integer page;

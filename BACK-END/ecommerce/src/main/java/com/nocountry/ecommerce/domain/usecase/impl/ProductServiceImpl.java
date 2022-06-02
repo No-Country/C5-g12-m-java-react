@@ -33,8 +33,8 @@ public class ProductServiceImpl implements ProductService {
         Integer page = request.getPage();
         Pageable pageable = PageRequest.of(page, 3);
 
-        return productRepository.findByMarkAndCategory(
-           request.getMark(), request.getCategory(), pageable
+        return productRepository.findByNameAndMarkAndCategory(
+        request.getName(),request.getMark(), request.getCategory(), pageable
         );
     }
 

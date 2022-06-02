@@ -33,11 +33,12 @@ public class ProductController {
 
     @GetMapping(path = "/page")
     public ResponseEntity<Page<ProductDetails>> getPage(
+       @RequestParam(required = false, defaultValue = "")String name,
        @RequestParam(required = false, defaultValue = "") String category,
        @RequestParam(required = false, defaultValue = "") String mark,
        @RequestParam(defaultValue = "0") Integer page)
     {
-        ProductFilterRequest filter = new ProductFilterRequest(category, mark , page);
+        ProductFilterRequest filter = new ProductFilterRequest(name,category, mark , page);
         Page<ProductDetails> pageOfProduct = mapper.pageProductToPageProductDetails(
            service.pageOfProduct(filter)
         );

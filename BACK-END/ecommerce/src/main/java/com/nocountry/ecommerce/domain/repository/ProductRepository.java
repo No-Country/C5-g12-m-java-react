@@ -17,7 +17,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
    Optional<Product> findById(Long id);
 
    @Query("select p from Product p where " +
-      "(?1 is null or p.mark.name like %?1%) " +
-      "and (?2 is null or p.category.name like %?2%)")
-   Page<Product> findByMarkAndCategory(String mark, String category, Pageable pageable);
+      "(?1 is null or p.name like %?1%) " +
+      "and (?2 is null or p.mark.name like %?2%) " +
+      "and (?3 is null or p.category.name like %?3%)")
+   Page<Product> findByNameAndMarkAndCategory(String name, String mark, String category, Pageable pageable);
 }
