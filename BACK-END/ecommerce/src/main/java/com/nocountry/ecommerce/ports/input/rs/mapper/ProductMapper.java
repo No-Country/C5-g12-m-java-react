@@ -6,6 +6,7 @@ import com.nocountry.ecommerce.ports.input.rs.request.ProductUpdateRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.ProductDetails;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -22,5 +23,7 @@ public interface ProductMapper {
 
    List<ProductDetails> ProductListToProductDetailList(List<Product> list);
 
-
+   default Page<ProductDetails> pageProductToPageProductDetails(Page<Product> page) {
+      return page.map(this::ProductToProductDetails);
+   }
 }
