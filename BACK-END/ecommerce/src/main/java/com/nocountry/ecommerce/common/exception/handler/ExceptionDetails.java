@@ -1,4 +1,4 @@
-package com.nocountry.ecommerce.common.exception.error;
+package com.nocountry.ecommerce.common.exception.handler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

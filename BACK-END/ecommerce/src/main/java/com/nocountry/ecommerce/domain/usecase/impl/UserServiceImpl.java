@@ -1,17 +1,13 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
+import com.nocountry.ecommerce.common.exception.error.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.RoleRepository;
 import com.nocountry.ecommerce.domain.repository.UserRepository;
 import com.nocountry.ecommerce.domain.usecase.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,18 +28,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final JwtUtils jwtUtils;
 
-
     private final static String ROLE_USER = "USER";
 
 
     @Override
     public User createUser(User user) {
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new AlreadyExistsException("User with this email already exists");
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new AlreadyExistsException(user.getEmail());
         }
 
-        user.setRole(roleRepository.findByName(ROLE_USER).orElseThrow((() -> new NotFoundException("Role not found"))));
+        user.setRole(roleRepository.findByName(ROLE_USER)
+           .orElseThrow((() -> new AlreadyExistsException("Role not found"))));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
@@ -53,7 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with the email: " + email));
     }
 
 
@@ -62,7 +58,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User updateUser(Long id, User user) {
       
-        User userFromDb = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        User userFromDb = userRepository.findById(id)
+           .orElseThrow(() -> new ResourceNotFoundException("User",id));
 
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -75,7 +72,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = userRepository.findById(id)
+           .orElseThrow(() -> new ResourceNotFoundException("User",id));
         userRepository.delete(user);
     }
 }
