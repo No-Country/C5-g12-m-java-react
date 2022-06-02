@@ -1,8 +1,11 @@
 package com.nocountry.ecommerce.common.exception.handler;
 
-import com.nocountry.ecommerce.common.exception.error.ExceptionDetails;
+import com.nocountry.ecommerce.common.exception.error.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.error.ConflictException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,11 +24,11 @@ public class GlobalHandlerException {
 
 
    @ResponseStatus(HttpStatus.BAD_REQUEST)
-   @ExceptionHandler({
+   @ExceptionHandler(value = {
       AlreadyExistsException.class,
       HttpRequestMethodNotSupportedException.class,
       ResourceNotFoundException.class,
-      NotFoundException.class
+      UsernameNotFoundException.class
    })
    @ResponseBody
    protected ExceptionDetails badRequestHandler(Exception exception, HttpServletRequest request) {
