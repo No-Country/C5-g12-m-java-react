@@ -57,7 +57,7 @@ public class MarkServiceImpl implements MarkService {
     }
 
     private void existsName(String name) {
-        if (markRepository.findByName(name).isPresent())
+        if (markRepository.existsByName(name))
             throw new AlreadyExistsException("The name: " + name + " is already in use");
     }
 

@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User createUser(User user) {
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new AlreadyExistsException("User with this email already exists");
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new AlreadyExistsException("User with the email" + user.getEmail() + " already exists");
         }
 
         user.setRole(roleRepository.findByName(ROLE_USER).orElseThrow((() -> new NotFoundException("Role not found"))));

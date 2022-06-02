@@ -2,7 +2,6 @@ package com.nocountry.ecommerce.domain.usecase.impl;
 
 import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
 import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
-import com.nocountry.ecommerce.common.exception.handler.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Category;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.model.Product;
@@ -10,7 +9,11 @@ import com.nocountry.ecommerce.domain.repository.CategoryRepository;
 import com.nocountry.ecommerce.domain.repository.MarkRepository;
 import com.nocountry.ecommerce.domain.repository.ProductRepository;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
+import com.nocountry.ecommerce.ports.input.rs.request.ProductFilterRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,16 +30,20 @@ public class ProductServiceImpl implements ProductService {
     //===================Find===================//
 
     @Transactional(readOnly = true)
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public Page<Product> pageOfProduct(ProductFilterRequest request) {
+
+        Integer page = request.getPage();
+        Pageable pageable = PageRequest.of(page, 3);
+
+        return productRepository.findByMarkAndCategory(
+           request.getMark(), request.getCategory(), pageable
+        );
     }
 
     //===================Create===================//
 
     public Long create(Product product) {
-        if (productRepository.findByName(product.getName()).isPresent())
-            throw new AlreadyExistsException("the name " + product.getName() + " is already in use");
-
+        existsName(product.getName());
         Long idMark = product.getMark().getId();
         Long idCategory = product.getCategory().getId();
 
@@ -54,8 +61,7 @@ public class ProductServiceImpl implements ProductService {
     //===================Update===================//
 
     public void update(Long id, Product request) {
-        if (productRepository.findByName(request.getName()).isPresent())
-            throw new AlreadyExistsException("The name " + request.getName() + " is already in use");
+        existsName(request.getName());
 
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Product not found by id: " + id));
@@ -81,6 +87,11 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
            .orElseThrow(() -> new NotFoundException("Product not found with id: " + id));
         productRepository.delete(product);
+    }
+
+    private void existsName(String name) {
+        if (productRepository.existsByName(name))
+            throw new AlreadyExistsException("the name " + name + " is already in use");
     }
 
 }
