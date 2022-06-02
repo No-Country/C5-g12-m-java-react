@@ -1,7 +1,7 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
+import com.nocountry.ecommerce.common.exception.error.ExistingNameException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.repository.MarkRepository;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
@@ -20,7 +20,7 @@ public class MarkServiceImpl implements MarkService {
     @Transactional
     public Mark getByIdIfExists(Long id) {
         return markRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("Mark" ,id));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MarkServiceImpl implements MarkService {
     @Transactional
     public void update(Long id, Mark request) {
         Mark mark = markRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("Mark",id));
 
         existsName(request.getName());
         mark.setName(request.getName());
@@ -50,7 +50,7 @@ public class MarkServiceImpl implements MarkService {
     @Transactional
     public void updateAvailable(Long id) {
         Mark mark = markRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("Mark",id));
 
         mark.setIsAvailable(true);
         markRepository.save(mark);
@@ -58,7 +58,7 @@ public class MarkServiceImpl implements MarkService {
 
     private void existsName(String name) {
         if (markRepository.existsByName(name))
-            throw new AlreadyExistsException("The name: " + name + " is already in use");
+            throw new ExistingNameException(name);
     }
 
 
@@ -66,7 +66,7 @@ public class MarkServiceImpl implements MarkService {
     @Transactional
     public void deleteById(Long id) {
         Mark mark = markRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("Mark not found with id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("Mark",id));
         markRepository.deleteById(mark.getId());
     }
 

@@ -1,7 +1,7 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
+import com.nocountry.ecommerce.common.exception.error.ExistingNameException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Category;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.model.Product;
@@ -16,8 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,9 +46,9 @@ public class ProductServiceImpl implements ProductService {
         Long idCategory = product.getCategory().getId();
 
         Mark mark = markRepository.findById(idMark)
-                .orElseThrow(() -> new NotFoundException("Mark not found by id: " + idMark));
+                .orElseThrow(() -> new ResourceNotFoundException("Mark",idMark));
         Category category = categoryRepository.findById(idCategory)
-                .orElseThrow(() -> new NotFoundException("Category not found id: " + idCategory));
+                .orElseThrow(() -> new ResourceNotFoundException("Category",idCategory));
 
         product.setMark(mark);
         product.setCategory(category);
@@ -64,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
         existsName(request.getName());
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Product not found by id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product",id));
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setDetail(request.getDetail());
@@ -75,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateAvailable(Long id) {
         Product product = productRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("Product not found by id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("Product",id));
 
         product.setIsAvailable(true);
         productRepository.save(product);
@@ -85,13 +83,13 @@ public class ProductServiceImpl implements ProductService {
 
     public void delete(Long id) {
         Product product = productRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("Product not found with id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("Product",id));
         productRepository.delete(product);
     }
 
     private void existsName(String name) {
         if (productRepository.existsByName(name))
-            throw new AlreadyExistsException("the name " + name + " is already in use");
+            throw new ExistingNameException(name);
     }
 
 }

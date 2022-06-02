@@ -1,17 +1,13 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
+import com.nocountry.ecommerce.common.exception.error.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.RoleRepository;
 import com.nocountry.ecommerce.domain.repository.UserRepository;
 import com.nocountry.ecommerce.domain.usecase.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,10 +35,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User createUser(User user) {
 
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new AlreadyExistsException("User with the email" + user.getEmail() + " already exists");
+            throw new AlreadyExistsException(user.getEmail());
         }
 
-        user.setRole(roleRepository.findByName(ROLE_USER).orElseThrow((() -> new NotFoundException("Role not found"))));
+        user.setRole(roleRepository.findByName(ROLE_USER)
+           .orElseThrow((() -> new AlreadyExistsException("Role not found"))));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
@@ -62,7 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User updateUser(Long id, User user) {
       
         User userFromDb = userRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("User",id));
 
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -76,7 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
-           .orElseThrow(() -> new NotFoundException("User not found with the id: " + id));
+           .orElseThrow(() -> new ResourceNotFoundException("User",id));
         userRepository.delete(user);
     }
 }
