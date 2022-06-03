@@ -29,6 +29,4 @@ public interface ProductMapper {
         return page.map(this::ProductToProductDetails);
     }
 
-    List<Product> listProductIdToProductList(List<Long> id);
-    Product map(Long id);
 }

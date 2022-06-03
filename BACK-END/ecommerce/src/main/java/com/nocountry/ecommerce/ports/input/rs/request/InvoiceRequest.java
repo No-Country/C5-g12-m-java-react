@@ -1,10 +1,11 @@
 package com.nocountry.ecommerce.ports.input.rs.request;
 
-import com.nocountry.ecommerce.domain.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
@@ -12,7 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 public class InvoiceRequest {
 
+    @NotEmpty
+    @NotBlank
     private Long idUser;
 
-    private List<Product> listProducts;
+    @NotEmpty
+    private List<Long> listProducts;
 }
