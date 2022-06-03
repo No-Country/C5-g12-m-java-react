@@ -1,5 +1,6 @@
 package com.nocountry.ecommerce.ports.input.rs.request;
 
+import com.nocountry.ecommerce.domain.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,5 @@ public class InvoiceRequest {
 
     private Long idUser;
 
-    private List<Long> listProducts;
+    private List<Product> listProducts;
 }
