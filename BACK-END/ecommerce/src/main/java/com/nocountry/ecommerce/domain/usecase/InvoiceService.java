@@ -1,9 +1,9 @@
 package com.nocountry.ecommerce.domain.usecase;
 
-import java.util.List;
+import com.nocountry.ecommerce.domain.model.Invoice;
 
 public interface InvoiceService {
 
-    void saveInvoice(Long idUser, List<Long> idProducts);
+    void saveInvoice(Invoice invoice);
 
 }

@@ -9,14 +9,16 @@ import com.nocountry.ecommerce.domain.repository.ProductRepository;
 import com.nocountry.ecommerce.domain.repository.UserRepository;
 import com.nocountry.ecommerce.domain.usecase.InvoiceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
+@Service
 public class InvoiceServiceImpl implements InvoiceService {
 
     private final UserRepository userRepository;
@@ -25,15 +27,17 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Transactional
     @Override
-    public void saveInvoice(Long idUser, List<Long> idProducts) {
+    public void saveInvoice(Invoice newInvoice) {
 
+        Long idUser = newInvoice.getUser().getId();
         User user = userRepository.findById(idUser).orElseThrow(() -> new ResourceNotFoundException("user", idUser));
 
         List<Product> listProduct = new ArrayList<>();
-        idProducts.forEach(id -> {
-            Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("product", id));
+        List<Product> listProductRequest = newInvoice.getProductList();
+        listProductRequest.forEach(p -> {
+            Product product = productRepository.findById(p.getId()).orElseThrow(() -> new ResourceNotFoundException("product", p.getId()));
             listProduct.add(product);
-            product.setStock(product.getStock()-1);
+            product.setStock(product.getStock() - 1);
             if (product.getStock() == 0) product.setIsAvailable(false);
             productRepository.save(product);
         });

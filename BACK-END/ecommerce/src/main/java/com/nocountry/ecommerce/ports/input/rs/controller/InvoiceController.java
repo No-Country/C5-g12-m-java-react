@@ -1,0 +1,29 @@
+package com.nocountry.ecommerce.ports.input.rs.controller;
+
+import com.nocountry.ecommerce.domain.usecase.InvoiceService;
+import com.nocountry.ecommerce.ports.input.rs.api.ApiConstants;
+import com.nocountry.ecommerce.ports.input.rs.mapper.InvoiceMapper;
+import com.nocountry.ecommerce.ports.input.rs.request.InvoiceRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(ApiConstants.INVOICE_URI)
+public class InvoiceController {
+
+    private final InvoiceService invoiceService;
+    private final InvoiceMapper mapper;
+
+    @PostMapping
+    public void createInvoice(@RequestBody InvoiceRequest request){
+
+        invoiceService.saveInvoice(mapper.InvoiceRequestToInvoice(request));
+
+    }
+
+
+}
