@@ -3,7 +3,6 @@ package com.nocountry.ecommerce.ports.input.rs.controller;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.MarkMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.MarkRequest;
-import com.nocountry.ecommerce.ports.input.rs.request.MarkUpdateAvailable;
 import com.nocountry.ecommerce.ports.input.rs.response.MarkDetails;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
