@@ -1,0 +1,91 @@
+.contentMain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    letter-spacing: 1px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.contentForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+.logo{
+    height: 200px;
+}
+.contentInput {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+    text-align: center;
+}
+.customLabel {
+    position: absolute;
+    transform: translateY(-20px);
+}
+.formikForm {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+}
+.customInput {
+    padding: 10px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    text-align: center;
+}
+.inputButton {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    color: #fff;
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.inputButton:hover {
+    background: #FF8800;
+}
+.textRegister a {
+    color: #337;
+    text-decoration: none;
+}
+
+
+@media only screen and (max-width: 600px) {    
+    .contentForm {
+        padding-left: 10px;
+        padding-right: 10px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+    .customInput {
+        background: #000;
+    }
+    .inputButton {
+        background: #000;
+    }
+    .textRegister {
+        color: #000;
+    }
+    .textRegister a {
+        color: #337ab7;
+    }
+}
+

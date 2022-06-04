@@ -1,13 +1,20 @@
+.pageNav {
+    overflow: hidden;
+}
 .navContent {
+    position: fixed;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: #19062a;
     border-bottom: 5px double #fff;
-    margin-bottom: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
+    z-index: 1000;
+    box-shadow: -9px 8px 12px rgba(0, 0, 0, 0.99);
+
 }
 .logoImg {
     height: 90px;
@@ -35,31 +42,82 @@
     justify-content: center;
     list-style: none;
     gap: 10px;
+    padding-right: 10px;
 }
 .otpContent ul li{
     border-radius: 15px;
-    border: 5px solid #337;
+    /* border: 5px solid #337; */
     background-color: #ddd;
     padding: 10px;
-    box-shadow: -9px 8px 12px rgba(0, 0, 0, 0.99);
-    cursor: pointer
+    /* box-shadow: -9px 8px 12px rgba(0, 0, 0, 0.99); */
+    cursor: pointer;
+    transition: .5s;
 }
+.otpContent ul li:hover{
+    background-color: #337;
+}
+
 .otpContent ul li svg {
     font-size: 1.2rem;
     color: #000;
 }
-/* 
-@media only screen and (max-width: 768px) {
-    .customNavbarContent {
-        gap: 20px
+
+@media only screen and (max-width: 700px) {
+    .links {
+        display: none;
     }
-    .logoContent {
+    .logoImg {
+        height: 70px
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .linksIcon {
         display: none;
     }
 }
 
-@media only screen and (max-width: 468px) {
-    .customNavbarContent {
-        flex-direction: column;
-    }
-} */
+.formSearch {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    transition: 1s;
+    transform: translateX(-20px);
+    padding-bottom: 15px;
+    padding-top: 120px;
+}
+
+.formSearchInvisible {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+    transition: 1s;
+    transform: translateX(300px);
+    padding-top: 120px;
+    z-index: -1000;
+}
+
+.shoppingCart {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    transition: 1s;
+    transform: translateX(-20px);
+    padding-bottom: 15px;
+    padding-top: 120px;
+}
+.shoppingCartInvisible {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+    transition: 1s;
+    transform: translateX(350px);
+    padding-top: 120px;
+    z-index: -1000;
+}
