@@ -5,6 +5,7 @@ import com.nocountry.ecommerce.domain.usecase.UserService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.UserMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.UpdateUserRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.UserDetailResponse;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,14 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PutMapping("{id}")
+    @ApiOperation("update user data")
     public ResponseEntity<UserDetailResponse> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserRequest userUpdate) {
         User user = userService.updateUser(id, userMapper.updateUserRequestToUser(userUpdate));
         return ResponseEntity.status(HttpStatus.OK).body(userMapper.userToUserDetailResponse(user));
     }
 
     @DeleteMapping("{id}")
+    @ApiOperation("remove a user")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -12,12 +12,14 @@ import com.nocountry.ecommerce.ports.input.rs.response.AuthResponse;
 import com.nocountry.ecommerce.ports.input.rs.response.RegisterResponse;
 import com.nocountry.ecommerce.ports.input.rs.response.TokenRefreshResponse;
 import com.nocountry.ecommerce.ports.input.rs.response.UserDetailResponse;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +46,7 @@ public class UserAuthController {
 
 
     @PostMapping("/register")
+    @ApiOperation("register a new user")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
 
         User createdUser = userService.createUser(userMapper.registerRequestToUser(registerRequest));
@@ -56,6 +59,7 @@ public class UserAuthController {
     }
 
     @PostMapping("/login")
+    @ApiOperation("log into the ecommerce")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
         AuthResponse authResponse = authMapper
                 .jwtToAuthResponse(authenticationService
@@ -65,6 +69,7 @@ public class UserAuthController {
 
 
     @GetMapping("/token-refresh")
+    @ApiOperation("get the refresh token")
     public ResponseEntity<TokenRefreshResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         TokenRefreshResponse tokenRefreshResponse = new TokenRefreshResponse();
         tokenRefreshResponse.setJwtRefresh(authenticationService.refresh(request, response));
@@ -73,6 +78,7 @@ public class UserAuthController {
 
 
     @GetMapping("/me")
+    @ApiIgnore
     public ResponseEntity<UserDetailResponse> getUserDetail(@AuthenticationPrincipal User user) {
         UserDetailResponse userDetailResponse = userMapper.userToUserDetailResponse(user);
         return ResponseEntity.status(HttpStatus.OK).body(userDetailResponse);

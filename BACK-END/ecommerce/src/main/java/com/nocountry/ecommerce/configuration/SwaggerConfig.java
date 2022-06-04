@@ -24,12 +24,15 @@ public class SwaggerConfig {
    public Docket api() {
       return new Docket(DocumentationType.SWAGGER_2)
          .apiInfo(apiInfo())
-         .securityContexts(Lists.newArrayList(securityConfig()))
-         .securitySchemes(Lists.newArrayList(apiKey()))
          .select()
          .apis(RequestHandlerSelectors.basePackage("com.nocountry.ecommerce.ports.input.rs.controller"))
          .paths(PathSelectors.any())
          .build();
+      /*
+         mientras no tengamos habilidata la seguridad esto queda asi
+         .securityContexts(Lists.newArrayList(securityConfig()))
+         .securitySchemes(Lists.newArrayList(apiKey()))
+      */
    }
 
    private ApiKey apiKey() {
