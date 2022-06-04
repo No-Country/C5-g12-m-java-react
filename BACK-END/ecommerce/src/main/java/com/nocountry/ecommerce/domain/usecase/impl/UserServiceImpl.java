@@ -26,8 +26,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final RoleRepository roleRepository;
 
-    private final JwtUtils jwtUtils;
-
     private final static String ROLE_USER = "ROL_USER";
 
     @Override
@@ -56,8 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User updateUser(Long id, User user) {
 
-        User userFromDb = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+        User userFromDb = getByIdIfExist(id);
 
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -70,8 +67,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+        User user = getByIdIfExist(id);
         userRepository.delete(user);
     }
 
