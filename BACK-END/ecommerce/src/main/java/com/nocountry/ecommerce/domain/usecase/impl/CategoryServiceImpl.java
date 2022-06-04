@@ -18,17 +18,20 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final String NAME = "Category";
 
-    @Override
+
+    //===================Find===================//
+
     @Transactional(readOnly = true)
     public Category getByIdIfExists(Long id) {
         return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME,id));
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    //===================Update===================//
 
     @Transactional
     public Long save(Category request) {
@@ -45,17 +48,18 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
     }
 
+    //===================Delete===================//
+
     @Transactional
     public void deleteById(Long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME,id));
-        categoryRepository.deleteById(category.getId());
-
+        Category category = getByIdIfExists(id);
+        categoryRepository.delete(category);
     }
 
+    //===================Util===================//
+
     private void existsName(String name) {
-        if (categoryRepository.findByName(name).isPresent())
-            throw new ExistingNameException(name);
+        if (categoryRepository.findByName(name).isPresent()) throw new ExistingNameException(name);
     }
 
 }

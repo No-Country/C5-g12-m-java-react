@@ -40,6 +40,10 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
+    public Product getByIdIfExist(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+    }
+
     //===================Create===================//
 
     public Long create(Product product) {
@@ -55,6 +59,11 @@ public class ProductServiceImpl implements ProductService {
         save(product);
         return product.getId();
     }
+
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
 
     //===================Update===================//
 
@@ -85,18 +94,10 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
-    public void save(Product product) {
-        productRepository.save(product);
-    }
-
-
-    public Product getByIdIfExist(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
-    }
+    //===================Util===================//
 
     private void existsName(String name) {
-        if (productRepository.existsByName(name))
-            throw new ExistingNameException(name);
+        if (productRepository.existsByName(name)) throw new ExistingNameException(name);
     }
 
 }

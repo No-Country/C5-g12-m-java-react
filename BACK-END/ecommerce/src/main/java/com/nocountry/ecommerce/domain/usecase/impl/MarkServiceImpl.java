@@ -20,57 +20,58 @@ public class MarkServiceImpl implements MarkService {
 
     private final MarkRepository markRepository;
 
+    //===================Find===================//
+
     @Transactional(readOnly = true)
     public Mark getByIdIfExists(Long id) {
-        return markRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+        return markRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<Mark> findAll() {
         return markRepository.findAll();
     }
 
-    @Override
+
+    //===================Update===================//
+
     @Transactional
     public Long save(Mark request) {
         existsName(request.getName());
         return markRepository.save(request).getId();
     }
 
-    @Override
+
     @Transactional
     public void update(Long id, Mark request) {
-        Mark mark = markRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+        Mark mark = getByIdIfExists(id);
 
         existsName(request.getName());
         mark.setName(request.getName());
     }
 
-    @Override
+
     @Transactional
     public void updateAvailable(Long id) {
-        Mark mark = markRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+        Mark mark = getByIdIfExists(id);
 
         mark.setIsAvailable(true);
         markRepository.save(mark);
     }
 
-    private void existsName(String name) {
-        if (markRepository.existsByName(name))
-            throw new ExistingNameException(name);
-    }
+    //===================Delete===================//
 
-
-    @Override
     @Transactional
     public void deleteById(Long id) {
-        Mark mark = markRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
-        markRepository.deleteById(mark.getId());
+        Mark mark = getByIdIfExists(id);
+        markRepository.delete(mark);
+    }
+
+    //===================Util===================//
+
+    private void existsName(String name) {
+        if (markRepository.existsByName(name)) throw new ExistingNameException(name);
     }
 
 }
