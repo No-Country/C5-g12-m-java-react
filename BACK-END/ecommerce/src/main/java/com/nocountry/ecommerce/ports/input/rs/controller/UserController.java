@@ -6,7 +6,6 @@ import com.nocountry.ecommerce.ports.input.rs.mapper.UserMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.UpdateUserRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

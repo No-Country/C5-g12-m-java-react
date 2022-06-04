@@ -10,5 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface MarkRepository extends JpaRepository<Mark, Long> {
-    Optional<Mark> findByName(String name);
+
+    boolean existsByName(String name);
 }
