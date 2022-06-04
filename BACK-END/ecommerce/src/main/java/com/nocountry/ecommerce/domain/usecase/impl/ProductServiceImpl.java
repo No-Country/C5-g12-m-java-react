@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    private static final String NAME = "Product";
+
     private final ProductRepository productRepository;
     private final MarkRepository markRepository;
     private final CategoryRepository categoryRepository;
@@ -34,8 +36,14 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(page, 3);
 
         return productRepository.findByNameAndMarkAndCategory(
-        request.getName(),request.getMark(), request.getCategory(), pageable
+                request.getName(), request.getMark(), request.getCategory(), pageable
         );
+    }
+
+
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
     }
 
     //===================Create===================//
@@ -46,9 +54,9 @@ public class ProductServiceImpl implements ProductService {
         Long idCategory = product.getCategory().getId();
 
         Mark mark = markRepository.findById(idMark)
-                .orElseThrow(() -> new ResourceNotFoundException("Mark",idMark));
+                .orElseThrow(() -> new ResourceNotFoundException("Mark", idMark));
         Category category = categoryRepository.findById(idCategory)
-                .orElseThrow(() -> new ResourceNotFoundException("Category",idCategory));
+                .orElseThrow(() -> new ResourceNotFoundException("Category", idCategory));
 
         product.setMark(mark);
         product.setCategory(category);
@@ -62,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         existsName(request.getName());
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product",id));
+                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setDetail(request.getDetail());
@@ -73,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateAvailable(Long id) {
         Product product = productRepository.findById(id)
-           .orElseThrow(() -> new ResourceNotFoundException("Product",id));
+                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
 
         product.setIsAvailable(true);
         productRepository.save(product);
@@ -83,8 +91,13 @@ public class ProductServiceImpl implements ProductService {
 
     public void delete(Long id) {
         Product product = productRepository.findById(id)
-           .orElseThrow(() -> new ResourceNotFoundException("Product",id));
+                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
         productRepository.delete(product);
+    }
+
+    @Override
+    public Product getByIdIfExist(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
     }
 
     private void existsName(String name) {

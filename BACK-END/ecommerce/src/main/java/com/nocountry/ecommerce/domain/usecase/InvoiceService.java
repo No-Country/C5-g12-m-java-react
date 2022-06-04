@@ -1,9 +1,9 @@
 package com.nocountry.ecommerce.domain.usecase;
 
-import com.nocountry.ecommerce.ports.input.rs.request.InvoiceRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.purchaseRequest;
 
 public interface InvoiceService {
 
-    void saveInvoice(InvoiceRequest request);
+    void processPurchaseRequest(purchaseRequest request);
 
 }

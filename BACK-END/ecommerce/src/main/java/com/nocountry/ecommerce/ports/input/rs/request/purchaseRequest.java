@@ -11,12 +11,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InvoiceRequest {
+public class purchaseRequest {
 
     @NotEmpty
     @NotBlank
     private Long idUser;
 
     @NotEmpty
-    private List<Long> listProducts;
+    private List<ProductRequestSimple> listProducts;
 }

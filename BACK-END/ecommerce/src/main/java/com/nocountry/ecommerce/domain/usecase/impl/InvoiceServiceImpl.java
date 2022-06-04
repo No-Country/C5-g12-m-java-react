@@ -1,14 +1,14 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Invoice;
 import com.nocountry.ecommerce.domain.model.Product;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.InvoiceRepository;
-import com.nocountry.ecommerce.domain.repository.ProductRepository;
-import com.nocountry.ecommerce.domain.repository.UserRepository;
 import com.nocountry.ecommerce.domain.usecase.InvoiceService;
-import com.nocountry.ecommerce.ports.input.rs.request.InvoiceRequest;
+import com.nocountry.ecommerce.domain.usecase.ProductService;
+import com.nocountry.ecommerce.domain.usecase.UserService;
+import com.nocountry.ecommerce.ports.input.rs.request.ProductRequestSimple;
+import com.nocountry.ecommerce.ports.input.rs.request.purchaseRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,49 +16,55 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;
+    private final UserService userService;
+    private final ProductService productService;
     private final InvoiceRepository invoiceRepository;
 
     @Override
     @Transactional
-    public void saveInvoice(InvoiceRequest newInvoice) {
+    public void processPurchaseRequest(purchaseRequest request) {
 
-        Long idUser = newInvoice.getIdUser();
-        User user = userRepository.findById(idUser).orElseThrow(() -> new ResourceNotFoundException("user", idUser));
+        User user = userService.getByIdIfExist(request.getIdUser());
+        List<Product> listProducts = new ArrayList<>();
 
-        List<Product> listProduct = new ArrayList<>();
-        List<Long> listProductRequest = newInvoice.getListProducts();
+        for (ProductRequestSimple p : request.getListProducts()) {
+            {
+                Product productDB = productService.getByIdIfExist(p.getId());
 
-        //producto,cantidad
-        Map<Long, Integer> map = listProductRequest.stream()
-                .collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
+                discountProduct(p, productDB);
+                disableProduct(productDB);
 
-
-        for (Map.Entry<Long, Integer> m : map.entrySet()) {
-            Product product = productRepository.findById(m.getKey()).orElseThrow(() -> new ResourceNotFoundException("product", m.getKey()));
-            if (m.getValue() > product.getStock() || !product.getIsAvailable()) throw new RuntimeException("no stock");
-
-            product.setStock(product.getStock() - m.getValue());
-            if (product.getStock() == 0) product.setIsAvailable(false);
-            productRepository.save(product);
+                productService.save(productDB);
+                listProducts.add(productDB);
+            }
         }
+
+        createAndSaveInvoice(user, listProducts);
+    }
+
+    private void createAndSaveInvoice(User user, List<Product> listProducts) {
 
         Invoice invoice = new Invoice();
         invoice.setUser(user);
-        invoice.setProductList(listProduct);
+        invoice.setProductList(listProducts);
         invoice.setCreationDate(LocalDateTime.now());
 
         invoiceRepository.save(invoice);
+
     }
 
+    private void disableProduct(Product productDB) {
+        if (productDB.getStock() == 0) productDB.setIsAvailable(false);
+    }
+
+    private void discountProduct(ProductRequestSimple p, Product productDB) {
+        if (p.getAmount() > productDB.getStock() || !productDB.getIsAvailable()) throw new RuntimeException("no stock");
+        productDB.setStock(productDB.getStock() - p.getAmount());
+    }
 
 }
