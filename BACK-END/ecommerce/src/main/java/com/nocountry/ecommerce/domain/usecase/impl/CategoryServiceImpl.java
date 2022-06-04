@@ -1,18 +1,15 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
-import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
+import com.nocountry.ecommerce.common.exception.error.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Category;
 import com.nocountry.ecommerce.domain.repository.CategoryRepository;
 import com.nocountry.ecommerce.domain.usecase.CategoryService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -20,10 +17,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    private final static String NAME = "Category";
+
     @Override
     @Transactional
     public Category getByIdIfExists(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
     }
 
     @Override
@@ -42,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void update(Long id, Category request) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
 
         existsName(request.getName());
         category.setName(request.getName());
@@ -53,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void deleteById(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new com.nocountry.ecommerce.common.exception.handler.ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
         categoryRepository.deleteById(category.getId());
 
     }
@@ -62,5 +61,6 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRepository.findByName(name).isPresent())
             throw new AlreadyExistsException("this name is already in use ");
     }
+
 
 }
