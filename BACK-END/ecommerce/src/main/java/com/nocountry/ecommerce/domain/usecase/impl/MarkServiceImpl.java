@@ -7,8 +7,8 @@ import com.nocountry.ecommerce.domain.repository.MarkRepository;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,14 +20,14 @@ public class MarkServiceImpl implements MarkService {
 
     private final MarkRepository markRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Mark getByIdIfExists(Long id) {
         return markRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Mark> findAll() {
         return markRepository.findAll();
     }

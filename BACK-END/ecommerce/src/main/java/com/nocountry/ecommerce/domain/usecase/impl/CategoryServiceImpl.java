@@ -7,9 +7,9 @@ import com.nocountry.ecommerce.domain.repository.CategoryRepository;
 import com.nocountry.ecommerce.domain.usecase.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,13 +19,13 @@ public class CategoryServiceImpl implements CategoryService {
     private final String NAME = "Category";
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Category getByIdIfExists(Long id) {
         return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME,id));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
