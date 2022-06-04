@@ -2,6 +2,7 @@ package com.nocountry.ecommerce.domain.usecase.impl;
 
 import com.nocountry.ecommerce.common.exception.error.AlreadyExistsException;
 import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
+import com.nocountry.ecommerce.common.exception.error.RoleNotFoundException;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.RoleRepository;
 import com.nocountry.ecommerce.domain.repository.UserRepository;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final RoleRepository roleRepository;
 
-    private final static String ROLE_USER = "ROL_USER";
+    private final static String ROLE_USER = "ROLE_USER";
 
     @Override
     public User createUser(User user) {
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         user.setRole(roleRepository.findByName(ROLE_USER)
-                .orElseThrow((() -> new AlreadyExistsException("Role not found"))));
+                .orElseThrow((() -> new RoleNotFoundException(ROLE_USER))));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);

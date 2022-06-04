@@ -24,14 +24,24 @@ public class GlobalHandlerException {
 
 
    @ResponseStatus(HttpStatus.BAD_REQUEST)
-   @ExceptionHandler(value = {
+   @ExceptionHandler({
       AlreadyExistsException.class,
       HttpRequestMethodNotSupportedException.class,
+   })
+   @ResponseBody
+   protected ExceptionDetails badRequestHandler(Exception exception, HttpServletRequest request) {
+      return new ExceptionDetails(LocalDateTime.now(), exception, request);
+   }
+
+   //=====================Not Found=====================//
+
+   @ResponseStatus(HttpStatus.NOT_FOUND)
+   @ExceptionHandler({
       ResourceNotFoundException.class,
       UsernameNotFoundException.class
    })
    @ResponseBody
-   protected ExceptionDetails badRequestHandler(Exception exception, HttpServletRequest request) {
+   protected ExceptionDetails notFoundHandler(Exception exception, HttpServletRequest request) {
       return new ExceptionDetails(LocalDateTime.now(), exception, request);
    }
 
@@ -44,7 +54,7 @@ public class GlobalHandlerException {
       HttpClientErrorException.Conflict.class
    })
    @ResponseBody
-   protected ExceptionDetails conflictExceptionHandler(Exception exception, HttpServletRequest request) {
+   protected ExceptionDetails conflictHandler(Exception exception, HttpServletRequest request) {
       return new ExceptionDetails(LocalDateTime.now(), exception, request);
    }
 
@@ -64,7 +74,7 @@ public class GlobalHandlerException {
    @ResponseStatus(HttpStatus.FORBIDDEN)
    @ExceptionHandler({HttpClientErrorException.Forbidden.class})
    @ResponseBody
-   protected ExceptionDetails forbiddenExceptionHandler(Exception exception, HttpServletRequest request) {
+   protected ExceptionDetails forbiddenHandler(Exception exception, HttpServletRequest request) {
       return new ExceptionDetails(LocalDateTime.now(), exception, request);
    }
 
@@ -74,5 +84,5 @@ public class GlobalHandlerException {
       HttpClientErrorException.Unauthorized.class,
       AccessDeniedException.class
    })
-   protected void unauthorizedExceptionHandler() { }
+   protected void unauthorizedHandler() { }
 }
