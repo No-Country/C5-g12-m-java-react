@@ -74,11 +74,6 @@ public class CategoryController {
         categoryService.update(id, mapper.CategoryRequestToCategory(request));
     }
 
-    @PatchMapping(path = "/available/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateAvailable(@Valid @NotNull @PathVariable("id") Long id) {
-        categoryService.updateAvailable(id);
-    }
 
 
     //====================Deletes====================//
