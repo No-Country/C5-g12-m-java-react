@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.nocountry.ecommerce.domain.model.Category;
 
-public interface CategoryService{
+public interface CategoryService {
+
     Category getByIdIfExists(Long id);
 
     List<Category> findAll();
