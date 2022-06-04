@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,11 +28,11 @@ public class Invoice {
 
     @ManyToMany
     @JoinTable(
-            name="invoice_product",
-            joinColumns=
-            @JoinColumn(name="invoice_id", referencedColumnName="invoice_id"),
-            inverseJoinColumns=
-            @JoinColumn(name="product_id", referencedColumnName="product_id")
+            name = "invoice_product",
+            joinColumns =
+            @JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id"),
+            inverseJoinColumns =
+            @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     )
     private List<Product> productList;
 

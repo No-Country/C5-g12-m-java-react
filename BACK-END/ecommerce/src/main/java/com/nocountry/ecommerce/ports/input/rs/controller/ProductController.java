@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
-import java.util.List;
 
 import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.PRODUCT_URI;
 
@@ -33,14 +32,13 @@ public class ProductController {
 
     @GetMapping(path = "/page")
     public ResponseEntity<Page<ProductDetails>> getPage(
-       @RequestParam(required = false, defaultValue = "")String name,
-       @RequestParam(required = false, defaultValue = "") String category,
-       @RequestParam(required = false, defaultValue = "") String mark,
-       @RequestParam(defaultValue = "0") Integer page)
-    {
-        ProductFilterRequest filter = new ProductFilterRequest(name,category, mark , page);
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") String category,
+            @RequestParam(required = false, defaultValue = "") String mark,
+            @RequestParam(defaultValue = "0") Integer page) {
+        ProductFilterRequest filter = new ProductFilterRequest(name, category, mark, page);
         Page<ProductDetails> pageOfProduct = mapper.pageProductToPageProductDetails(
-           service.pageOfProduct(filter)
+                service.pageOfProduct(filter)
         );
         return ResponseEntity.ok(pageOfProduct);
     }

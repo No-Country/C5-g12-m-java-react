@@ -12,14 +12,14 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-   boolean existsByName(String name);
+    boolean existsByName(String name);
 
-   Optional<Product> findById(Long id);
+    Optional<Product> findById(Long id);
 
-   @Query("select p from Product p where " +
-      "p.isAvailable = true " +
-      "and (?1 is null or p.name like %?1%) " +
-      "and (?2 is null or p.mark.name like %?2%) " +
-      "and (?3 is null or p.category.name like %?3%)")
-   Page<Product> findByNameAndMarkAndCategory(String name, String mark, String category, Pageable pageable);
+    @Query("select p from Product p where " +
+            "p.isAvailable = true " +
+            "and (?1 is null or p.name like %?1%) " +
+            "and (?2 is null or p.mark.name like %?2%) " +
+            "and (?3 is null or p.category.name like %?3%)")
+    Page<Product> findByNameAndMarkAndCategory(String name, String mark, String category, Pageable pageable);
 }

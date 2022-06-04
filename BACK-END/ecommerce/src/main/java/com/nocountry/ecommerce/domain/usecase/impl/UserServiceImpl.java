@@ -2,7 +2,6 @@ package com.nocountry.ecommerce.domain.usecase.impl;
 
 import com.nocountry.ecommerce.common.exception.error.AlreadyExistsException;
 import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
-import com.nocountry.ecommerce.common.security.utils.JwtUtils;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.RoleRepository;
 import com.nocountry.ecommerce.domain.repository.UserRepository;
@@ -19,14 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+    private static final String NAME = "User";
 
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;
-
-    private final JwtUtils jwtUtils;
 
     private final static String ROLE_USER = "USER";
 
@@ -39,7 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         user.setRole(roleRepository.findByName(ROLE_USER)
-           .orElseThrow((() -> new AlreadyExistsException("Role not found"))));
+                .orElseThrow((() -> new AlreadyExistsException("Role not found"))));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
@@ -53,13 +51,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
-
     @Transactional
     @Override
     public User updateUser(Long id, User user) {
-      
+
         User userFromDb = userRepository.findById(id)
-           .orElseThrow(() -> new ResourceNotFoundException("User",id));
+                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
 
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -73,7 +70,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
-           .orElseThrow(() -> new ResourceNotFoundException("User",id));
+                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
         userRepository.delete(user);
     }
+
+    @Transactional
+    @Override
+    public User getByIdIfExist(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+    }
+
+
 }
