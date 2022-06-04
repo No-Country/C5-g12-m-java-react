@@ -5,8 +5,8 @@ import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Category;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.model.Product;
-import com.nocountry.ecommerce.domain.repository.CategoryRepository;
 import com.nocountry.ecommerce.domain.repository.ProductRepository;
+import com.nocountry.ecommerce.domain.usecase.CategoryService;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductFilterRequest;
@@ -25,9 +25,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final MarkService markService;
-
-    //inyectar el service cuando se tenga mergeada la rama correspondiente
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     //===================Find===================//
 
@@ -42,10 +40,8 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
-
-    @Override
-    public void save(Product product) {
-        productRepository.save(product);
+    public Product getByIdIfExist(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
     }
 
     //===================Create===================//
@@ -56,15 +52,18 @@ public class ProductServiceImpl implements ProductService {
         Long idCategory = product.getCategory().getId();
 
         Mark mark = markService.getByIdIfExists(idMark);
-
-        Category category = categoryRepository.findById(idCategory)
-                .orElseThrow(() -> new ResourceNotFoundException("Category", idCategory));
+        Category category = categoryService.getByIdIfExists(idCategory);
 
         product.setMark(mark);
         product.setCategory(category);
-        productRepository.save(product);
+        save(product);
         return product.getId();
     }
+
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
 
     //===================Update===================//
 
@@ -77,33 +76,28 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(request.getPrice());
         product.setDetail(request.getDetail());
         product.setImage(request.getImage());
-        productRepository.save(product);
+        save(product);
     }
 
-    @Override
+
     public void updateAvailable(Long id) {
         Product product = getByIdIfExist(id);
 
         product.setIsAvailable(true);
-        productRepository.save(product);
+        save(product);
     }
 
     //===================Delete===================//
 
     public void delete(Long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+        Product product = getByIdIfExist(id);
         productRepository.delete(product);
     }
 
-    @Override
-    public Product getByIdIfExist(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
-    }
+    //===================Util===================//
 
     private void existsName(String name) {
-        if (productRepository.existsByName(name))
-            throw new ExistingNameException(name);
+        if (productRepository.existsByName(name)) throw new ExistingNameException(name);
     }
 
 }
