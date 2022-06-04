@@ -26,8 +26,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final RoleRepository roleRepository;
 
-    private final static String ROLE_USER = "USER";
+    private final JwtUtils jwtUtils;
 
+    private final static String ROLE_USER = "ROL_USER";
 
     @Override
     public User createUser(User user) {

@@ -6,6 +6,7 @@ import com.nocountry.ecommerce.ports.input.rs.request.ProductCreateRequest;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductFilterRequest;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductUpdateRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.ProductDetails;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class ProductController {
 
     //====================Gets====================//
 
+    @ApiOperation("display a product page")
     @GetMapping(path = "/page")
     public ResponseEntity<Page<ProductDetails>> getPage(
             @RequestParam(required = false, defaultValue = "") String name,
@@ -45,6 +47,7 @@ public class ProductController {
 
     //====================Posts====================//
 
+    @ApiOperation("create a product")
     @PostMapping(path = "/create")
     public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductCreateRequest request) {
         long id = service.create(mapper.CreateProductToProduct(request));
@@ -55,7 +58,7 @@ public class ProductController {
 
     //====================Puts====================//
 
-
+    @ApiOperation("update product data")
     @PatchMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProduct(@PathVariable("id") @NotNull Long id,
@@ -63,6 +66,7 @@ public class ProductController {
         service.update(id, mapper.UpdateProductToProduct(request));
     }
 
+    @ApiOperation("update is available product")
     @PatchMapping(path = "/available/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAvailable(@PathVariable("id") @NotNull Long id) {
@@ -71,6 +75,7 @@ public class ProductController {
 
     //====================Deletes====================//
 
+    @ApiOperation("delete a product")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable @NotBlank @Valid Long id) {
