@@ -14,7 +14,7 @@ const HomePage = () => {
             <aside className={style.pageContent}>
                 <article className={style.titlesContent}>
                     <img className={style.logo} src={logo} alt="logo"/>
-                    <h1><i>NoCountry shop</i></h1>
+                    <h1><i>NoCountry Shop</i></h1>
                 </article>
                 <article className={style.optContent}>
                     <div className={style.boxItemProducts}>
