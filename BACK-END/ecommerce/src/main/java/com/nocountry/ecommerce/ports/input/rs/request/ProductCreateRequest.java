@@ -1,37 +1,35 @@
 package com.nocountry.ecommerce.ports.input.rs.request;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductCreateRequest {
-   @NotEmpty
+
    @NotBlank
    private String name;
 
-   @NotEmpty
+   @NotNull
    private Double price;
 
-   @NotEmpty
+   @NotNull
    private Long stock;
 
-   @NotEmpty
    @NotBlank
    private String detail;
 
-   @NotEmpty
    @NotBlank
    private String image;
 
-   @NotEmpty
+   @NotNull
    private Long mark;
 
-   @NotEmpty
+   @NotNull
    private Long category;
 }
