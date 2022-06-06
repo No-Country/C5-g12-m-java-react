@@ -2,7 +2,7 @@ package com.nocountry.ecommerce.ports.input.rs.controller;
 
 import com.nocountry.ecommerce.domain.usecase.InvoiceService;
 import com.nocountry.ecommerce.ports.input.rs.api.ApiConstants;
-import com.nocountry.ecommerce.ports.input.rs.request.purchaseRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.PurchaseRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,7 @@ public class InvoiceController {
 
 
     @PostMapping
-    public void processPurchase(@RequestBody purchaseRequest request) {
+    public void processPurchase(@RequestBody PurchaseRequest request) {
         invoiceService.processPurchaseRequest(request);
     }
 

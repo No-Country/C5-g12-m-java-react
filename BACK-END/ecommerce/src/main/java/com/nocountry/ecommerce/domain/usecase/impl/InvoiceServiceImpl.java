@@ -8,7 +8,7 @@ import com.nocountry.ecommerce.domain.usecase.InvoiceService;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
 import com.nocountry.ecommerce.domain.usecase.UserService;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductRequestSimple;
-import com.nocountry.ecommerce.ports.input.rs.request.purchaseRequest;
+import com.nocountry.ecommerce.ports.input.rs.request.PurchaseRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     @Transactional
-    public void processPurchaseRequest(purchaseRequest request) {
+    public void processPurchaseRequest(PurchaseRequest request) {
 
         User user = userService.getByIdIfExist(request.getIdUser());
         List<Product> listProducts = new ArrayList<>();
