@@ -1,24 +1,23 @@
 package com.nocountry.ecommerce.domain.usecase;
 
 import com.nocountry.ecommerce.domain.model.Product;
-import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductFilterRequest;
-import com.nocountry.ecommerce.ports.input.rs.response.ProductDetails;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface ProductService extends ActiveAvailable {
 
-    Page<Product> pageOfProduct(ProductFilterRequest request);
+    Product getByIdIfExist(Long id);
 
-    void save(Product product);
+    List<Product> findBySpecification(ProductFilterRequest request);
+
+    List<Product> findAll();
 
     Long create(Product product);
+
+    void save(Product product);
 
     void update(Long id, Product product);
 
     void delete(Long id);
-
-    Product getByIdIfExist(Long id);
 }
