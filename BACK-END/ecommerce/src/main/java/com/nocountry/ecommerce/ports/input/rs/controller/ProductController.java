@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -32,6 +33,7 @@ public class ProductController {
 
    //====================Gets====================//
 
+   @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
    @ApiOperation("display a product page")
    @GetMapping(path = "/products")
    public ResponseEntity<List<ProductDetails>> getPage(
@@ -53,6 +55,7 @@ public class ProductController {
 
    //====================Posts====================//
 
+   @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
    @ApiOperation("create a product")
    @PostMapping(path = "/create")
    public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductCreateRequest request) {
@@ -64,6 +67,7 @@ public class ProductController {
 
    //====================Puts====================//
 
+   @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
    @ApiOperation("update product data")
    @PatchMapping(path = "/{id}")
    @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -72,6 +76,7 @@ public class ProductController {
       service.update(id, mapper.UpdateProductToProduct(request));
    }
 
+   @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
    @ApiOperation("update is available product")
    @PatchMapping(path = "/available/{id}")
    @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -81,6 +86,7 @@ public class ProductController {
 
    //====================Deletes====================//
 
+   @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
    @ApiOperation("delete a product")
    @DeleteMapping(path = "/{id}")
    @ResponseStatus(HttpStatus.NO_CONTENT)

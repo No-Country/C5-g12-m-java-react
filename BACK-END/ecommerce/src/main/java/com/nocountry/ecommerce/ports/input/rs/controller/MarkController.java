@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,6 +30,7 @@ public class MarkController {
 
     //====================Gets====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping
     @ApiOperation("display a list of marks")
     public ResponseEntity<List<MarkDetails>> getAllProducts() {
@@ -37,6 +39,7 @@ public class MarkController {
 
     //====================Get by id====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @ApiOperation("get a mark by id")
     @GetMapping(path = "/{id}")
     public ResponseEntity<MarkDetails> getById(@Valid @NotNull @PathVariable("id") Long id) {
@@ -46,6 +49,7 @@ public class MarkController {
 
     //====================Posts====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation("create a mark")
     @PostMapping(path = "/create")
     public ResponseEntity<Void> createMark(@RequestBody MarkRequest markCreateRequest) {
@@ -58,6 +62,7 @@ public class MarkController {
 
     //====================Patchs====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation("update data mark")
     @PatchMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -66,6 +71,7 @@ public class MarkController {
         markService.update(id, mapper.MarkRequestToMark(request));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation("update is available")
     @PatchMapping(path = "/available/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -76,6 +82,7 @@ public class MarkController {
 
     //====================Deletes====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation("delete a mark")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
