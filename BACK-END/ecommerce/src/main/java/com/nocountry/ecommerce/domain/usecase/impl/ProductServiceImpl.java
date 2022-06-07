@@ -10,12 +10,12 @@ import com.nocountry.ecommerce.domain.usecase.CategoryService;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductFilterRequest;
+import com.nocountry.ecommerce.ports.input.rs.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,18 +26,17 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final MarkService markService;
     private final CategoryService categoryService;
+    private final ProductSpecification productSpecification;
 
     //===================Find===================//
 
-    @Transactional(readOnly = true)
-    public Page<Product> pageOfProduct(ProductFilterRequest request) {
+    public List<Product> findBySpecification(ProductFilterRequest request) {
+        Specification<Product> specification = productSpecification.specification(request);
+        return productRepository.findAll(specification);
+    }
 
-        Integer page = request.getPage();
-        Pageable pageable = PageRequest.of(page, 3);
-
-        return productRepository.findByNameAndMarkAndCategory(
-                request.getName(), request.getMark(), request.getCategory(), pageable
-        );
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     public Product getByIdIfExist(Long id) {
