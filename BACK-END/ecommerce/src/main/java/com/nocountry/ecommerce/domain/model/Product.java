@@ -33,6 +33,7 @@ public class Product {
     @Column(name = "is_available", updatable = true)
     private Boolean isAvailable = true;
 
+
     @Type(type = "org.hibernate.type.TextType")
     @Column(name = "detail", nullable = false)
     private String detail;

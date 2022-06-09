@@ -6,3 +6,4 @@ VALUES           (1, 'Logitech', TRUE),
                  (5, 'Razer', TRUE),
                  (6, 'Lenovo', TRUE),
                  (7, 'Noga', TRUE);
+

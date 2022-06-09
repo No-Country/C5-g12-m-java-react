@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, {useEffect, useState} from 'react'
+=======
+import React from 'react'
+>>>>>>> b4ccb1608cc963da56df8373a591ed33268d51dd
 import style from './customNavbarStyle.module.css'
 import { Link } from 'react-router-dom'
 
@@ -9,6 +13,7 @@ import { MdOutlineSort } from 'react-icons/md'
 
 import logoApp from '../../assets/logo.png'
 
+<<<<<<< HEAD
 import { SearchInput } from './navigationManners/SearchInput/SearchInput'
 // import { ShoppingCart } from './navigationManners/shoppingCart/ShoppingCart'
 import { UserProfile } from './navigationManners/userProfile/userProfile'
@@ -64,6 +69,30 @@ const CustomNavbar = () => {
             <SearchInput className={inputSearch}/>
             <UserProfile className={shoppingCart} />
         </div>
+=======
+const CustomNavbar = () => {
+    return (
+        <nav className={style.navContent}>
+            <section>
+                <img className={style.logoImg} src={logoApp} alt="logo" />
+            </section>
+            <section className={style.linksContent}>
+                <div className={style.links}>
+                    <Link to="/"> Home </Link>
+                    <Link to="/"> Products </Link>
+                    <Link to="/"> Categories </Link>
+                    <Link to="/"> About us </Link>
+                </div>
+            </section>
+            <section className={style.otpContent}>
+                <ul>
+                    <li><GoSearch /></li>
+                    <li><BiUser /></li>
+                    <li><FiShoppingCart /></li>
+                </ul>
+            </section>
+        </nav>
+>>>>>>> b4ccb1608cc963da56df8373a591ed33268d51dd
     )
 }
 

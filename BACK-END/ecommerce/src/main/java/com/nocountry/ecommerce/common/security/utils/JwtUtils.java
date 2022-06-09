@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
@@ -21,7 +23,6 @@ public class JwtUtils {
     private String SECRET_KEY;
 
     private SecretKey key;
-    private static final int TOKEN_EXPIRATION_TIME = 10; //hours
 
     @PostConstruct
     protected void init() {
@@ -49,22 +50,28 @@ public class JwtUtils {
         return extractExpiration(token).before(new Date());
     }
 
-
-    public String generateToken(UserDetails userDetails) {
-
-        return Jwts.builder()
-                .claim("role", userDetails.getAuthorities().getClass().getName())
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * TOKEN_EXPIRATION_TIME))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+
+    public Jwt generateJwt(UserDetails userDetails) {
+        return new Jwt(generateToken(userDetails, 3),
+                generateToken(userDetails, 60));
+    }
+
+
+    public String generateToken(UserDetails userDetails, Integer timeExpiration) {
+
+        return Jwts.builder()
+                .claim("ROLE", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + timeExpiration * 60 * 1000))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
 
 }

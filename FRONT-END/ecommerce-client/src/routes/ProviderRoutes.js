@@ -1,7 +1,7 @@
 import React, { lazy, Suspense} from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import CustomNavbar from '../components/customNavbar/customNavbar';
+// import CustomNavbar from '../components/customNavbar/customNavbar';
 
 const HomePage = lazy(() => import('../views/homePage/HomePage'));
 const LoginPage = lazy(() => import('../views/loginPage/LoginPage'))

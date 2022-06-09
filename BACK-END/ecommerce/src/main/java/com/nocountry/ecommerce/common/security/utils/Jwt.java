@@ -1,13 +1,16 @@
-package com.nocountry.ecommerce.ports.input.rs.response;
+package com.nocountry.ecommerce.common.security.utils;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
+public class Jwt {
+
     private String jwt;
 
     private String jwtRefresh;
