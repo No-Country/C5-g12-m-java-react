@@ -24,8 +24,6 @@ public class SwaggerConfig {
    public Docket api() {
       return new Docket(DocumentationType.SWAGGER_2)
          .apiInfo(apiInfo())
-         .securityContexts(Lists.newArrayList(securityConfig()))
-         .securitySchemes(Lists.newArrayList(apiKey()))
          .select()
          .apis(RequestHandlerSelectors.basePackage("com.nocountry.ecommerce.ports.input.rs.controller"))
          .paths(PathSelectors.any())
