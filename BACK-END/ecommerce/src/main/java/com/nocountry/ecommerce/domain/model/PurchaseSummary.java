@@ -12,14 +12,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@Table(name = "summary")
 public class PurchaseSummary {
 
    @Id
    @GeneratedValue(strategy = IDENTITY)
-   @Column(name = "purchase_id")
+   @Column(name = "summary_id")
    private Long id;
 
-   @Column(nullable = false, updatable = false)
+   @Column(name = "amount" ,nullable = false, updatable = false)
    private Integer amount;
 
    @OneToOne

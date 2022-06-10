@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Invoice {
 
 
@@ -26,15 +25,15 @@ public class Invoice {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
-            name = "invoice_product",
+            name = "invoice_summary",
             joinColumns =
             @JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id"),
             inverseJoinColumns =
-            @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+            @JoinColumn(name = "summary_id", referencedColumnName = "summary_id")
     )
-    private List<Product> productList;
+    private List<PurchaseSummary> productList;
 
     @Column(name = "date", nullable = false, updatable = false)
     @CreationTimestamp
