@@ -149,13 +149,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
                     <target>1.8</target>
                 </configuration>
             </plugin>
-
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> ebec2a3eb82083fd9b8945b52dc0b2fc02dec33c
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
