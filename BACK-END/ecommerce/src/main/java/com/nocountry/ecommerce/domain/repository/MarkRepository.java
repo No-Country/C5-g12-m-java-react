@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface MarkRepository extends JpaRepository<Mark, Long> {
 
     boolean existsByName(String name);
+
+    
 }
