@@ -30,7 +30,7 @@ public class MarkServiceImpl implements MarkService {
 
 
     @Transactional(readOnly = true)
-    public List<Mark> findAll() {
+    public List<Mark> findAllActive() {
         List <Mark> markList = markRepository.findAll();
         List <Mark> marksActive = new ArrayList<>();
         for (Mark mark : markList) {
@@ -81,6 +81,13 @@ public class MarkServiceImpl implements MarkService {
 
     private void existsName(String name) {
         if (markRepository.existsByName(name)) throw new ExistingNameException(name);
+    }
+
+
+    @Override
+    public List<Mark> findAll() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

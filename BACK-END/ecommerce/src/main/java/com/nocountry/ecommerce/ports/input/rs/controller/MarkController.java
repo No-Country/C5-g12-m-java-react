@@ -34,7 +34,7 @@ public class MarkController {
     @GetMapping
     @ApiOperation("display a list of marks")
     public ResponseEntity<List<MarkDetails>> getAllProducts() {
-        return ResponseEntity.ok(mapper.MarkListToMarkDetailList(markService.findAll()));
+        return ResponseEntity.ok(mapper.MarkListToMarkDetailList(markService.findAllActive()));
     }
 
     //====================Get by id====================//
