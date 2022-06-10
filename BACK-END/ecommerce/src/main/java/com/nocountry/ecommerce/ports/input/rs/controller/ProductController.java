@@ -37,19 +37,14 @@ public class ProductController {
    @PreAuthorize(BOTH)
    @GetMapping(path = "/products")
    public ResponseEntity<List<ProductDetails>> getPage(
-      @RequestParam(required = false) String name,
-      @RequestParam(required = false) String category,
-      @RequestParam(required = false) String mark
-   )
-   {
-      List<Product> list;
-      if(name != null || category != null || mark != null) {
-         ProductFilterRequest filter = new ProductFilterRequest(name, category, mark);
-         list = service.findBySpecification(filter);
-      }
-      else list = service.findAll();
+      @RequestParam(required = false, defaultValue = "") String name,
+      @RequestParam(required = false, defaultValue = "") String category,
+      @RequestParam(required = false, defaultValue = "") String mark)
 
-      List<ProductDetails> productDetails = mapper.ProductListToProductDetailList(list);
+   {
+      ProductFilterRequest filter = new ProductFilterRequest(name, category, mark);
+      List<Product> products = service.findBySpecification(filter);
+      List<ProductDetails> productDetails = mapper.ProductListToProductDetailList(products);
       return ResponseEntity.ok(productDetails);
    }
 

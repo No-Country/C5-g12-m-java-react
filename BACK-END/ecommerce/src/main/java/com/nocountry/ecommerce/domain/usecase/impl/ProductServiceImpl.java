@@ -10,9 +10,7 @@ import com.nocountry.ecommerce.domain.usecase.CategoryService;
 import com.nocountry.ecommerce.domain.usecase.MarkService;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
 import com.nocountry.ecommerce.ports.input.rs.request.ProductFilterRequest;
-import com.nocountry.ecommerce.ports.input.rs.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,17 +24,11 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final MarkService markService;
     private final CategoryService categoryService;
-    private final ProductSpecification productSpecification;
 
     //===================Find===================//
 
     public List<Product> findBySpecification(ProductFilterRequest request) {
-        Specification<Product> specification = productSpecification.specification(request);
-        return productRepository.findAll(specification);
-    }
-
-    public List<Product> findAll() {
-        return productRepository.findAll();
+        return productRepository.findByNameAndMarkAndCategory(request.getName(), request.getMark(), request.getCategory());
     }
 
     public Product getByIdIfExist(Long id) {
