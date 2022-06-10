@@ -25,9 +25,10 @@ import com.nocountry.ecommerce.domain.usecase.CategoryService;
 import com.nocountry.ecommerce.ports.input.rs.mapper.CategoryMapper;
 import com.nocountry.ecommerce.ports.input.rs.request.CategoryRequest;
 import com.nocountry.ecommerce.ports.input.rs.response.CategoryDetails;
-import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.CATEGORY_URI;
 
 import lombok.RequiredArgsConstructor;
+
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class CategoryController {
 
     //====================Gets====================//
     
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize(BOTH)
     @GetMapping
     public ResponseEntity<List<CategoryDetails>> getAllCategories() {
         return ResponseEntity.ok(mapper.CategoryListToCategoryDetailList(categoryService.findAll()));
@@ -49,7 +50,7 @@ public class CategoryController {
 
     //====================Get by id====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize(BOTH)
     @GetMapping(path = "/{id}")
     public ResponseEntity<CategoryDetails> getById(@Valid @NotNull @PathVariable("id") Long id) {
         return ResponseEntity.ok(mapper.CategoryToCategoryDetails(categoryService.getByIdIfExists(id)));
@@ -58,7 +59,7 @@ public class CategoryController {
 
     //====================Posts====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize(ADMIN)
     @PostMapping(path = "/create")
     public ResponseEntity<Void> createCategory(@RequestBody CategoryRequest categoryCreateRequest) {
         long id = categoryService.save(mapper.CategoryRequestToCategory(categoryCreateRequest));
@@ -71,7 +72,7 @@ public class CategoryController {
 
     //====================Patchs====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize(ADMIN)
     @PatchMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCategory(@Valid @NotNull @PathVariable("id") Long id,
@@ -83,7 +84,7 @@ public class CategoryController {
 
     //====================Deletes====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize(ADMIN)
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@Valid @NotNull @PathVariable Long id) {

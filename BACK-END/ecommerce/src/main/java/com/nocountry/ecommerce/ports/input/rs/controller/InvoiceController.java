@@ -18,21 +18,24 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.*;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApiConstants.INVOICE_URI)
+@RequestMapping(INVOICE_URI)
 public class InvoiceController {
 
     private final InvoiceService invoiceService;
     private final InvoiceMapper invoiceMapper;
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize(BOTH)
     public ResponseEntity<List<InvoiceResponse>> getInvoices(@PathVariable("id") Long id) {
         List<InvoiceResponse> responses = invoiceMapper.ListInvoiceToInvoiceResponse(invoiceService.getInvoices(id));
         return ResponseEntity.ok(responses);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize(BOTH)
     @PostMapping
     public void processPurchase(@RequestBody PurchaseRequest request) {
         invoiceService.processPurchaseRequest(request);

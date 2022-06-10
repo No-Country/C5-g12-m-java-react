@@ -9,9 +9,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.USER_URI;
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.*;
 
 @RequestMapping(USER_URI)
 @RequiredArgsConstructor
@@ -22,15 +23,17 @@ public class UserController {
 
     private final UserMapper userMapper;
 
-    @PutMapping("{id}")
     @ApiOperation("update user data")
+    @PreAuthorize(BOTH)
+    @PutMapping("{id}")
     public ResponseEntity<UserDetailResponse> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserRequest userUpdate) {
         User user = userService.updateUser(id, userMapper.updateUserRequestToUser(userUpdate));
         return ResponseEntity.status(HttpStatus.OK).body(userMapper.userToUserDetailResponse(user));
     }
 
-    @DeleteMapping("{id}")
     @ApiOperation("remove a user")
+    @PreAuthorize(ADMIN)
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
