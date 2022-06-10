@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 
-import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.MARK_URI;
+import static com.nocountry.ecommerce.ports.input.rs.api.ApiConstants.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class MarkController {
 
     //====================Gets====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize(BOTH)
     @GetMapping
     @ApiOperation("display a list of marks")
     public ResponseEntity<List<MarkDetails>> getAllProducts() {
@@ -39,7 +39,7 @@ public class MarkController {
 
     //====================Get by id====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize(BOTH)
     @ApiOperation("get a mark by id")
     @GetMapping(path = "/{id}")
     public ResponseEntity<MarkDetails> getById(@Valid @NotNull @PathVariable("id") Long id) {
@@ -49,7 +49,7 @@ public class MarkController {
 
     //====================Posts====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize(ADMIN)
     @ApiOperation("create a mark")
     @PostMapping(path = "/create")
     public ResponseEntity<Void> createMark(@RequestBody MarkRequest markCreateRequest) {
@@ -62,8 +62,8 @@ public class MarkController {
 
     //====================Patchs====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation("update data mark")
+    @PreAuthorize(ADMIN)
     @PatchMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateMark(@Valid @NotNull @PathVariable("id") Long id,
@@ -71,8 +71,8 @@ public class MarkController {
         markService.update(id, mapper.MarkRequestToMark(request));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation("update is available")
+    @PreAuthorize(ADMIN)
     @PatchMapping(path = "/available/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAvailable(@Valid @NotNull @PathVariable("id") Long id) {
@@ -82,8 +82,8 @@ public class MarkController {
 
     //====================Deletes====================//
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @ApiOperation("delete a mark")
+    @PreAuthorize(ADMIN)
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMark(@Valid @NotNull @PathVariable Long id) {
