@@ -39,6 +39,9 @@ public class Invoice {
     @CreationTimestamp
     private LocalDateTime creationDate;
 
+    @Column(name = "total_price", nullable = false, updatable = false)
+    private Float totalPrice;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
