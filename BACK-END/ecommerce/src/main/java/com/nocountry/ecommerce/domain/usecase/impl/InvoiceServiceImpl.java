@@ -45,12 +45,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         User user = userService.getByIdIfExist(request.getIdUser());
         List<PurchaseSummary> listProducts = new ArrayList<>();
+        float totalPrice = 0;
 
         for (ProductRequestSimple p : request.getListProducts()) {
             {
                 Product productDB = productService.getByIdIfExist(p.getId());
 
                 discountProduct(p, productDB);
+                totalPrice += (p.getAmount() * productDB.getPrice());
                 disableProduct(productDB);
 
                 productService.save(productDB);
@@ -58,18 +60,19 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
         }
 
-        createAndSaveInvoice(user, listProducts);
+        createAndSaveInvoice(user, listProducts, totalPrice);
     }
 
     //====================Purchase Utils====================//
 
 
-    private void createAndSaveInvoice(User user, List<PurchaseSummary> listProducts) {
+    private void createAndSaveInvoice(User user, List<PurchaseSummary> listProducts, float totalPrice) {
 
         Invoice invoice = new Invoice();
         invoice.setUser(user);
         invoice.setProductList(listProducts);
         invoice.setCreationDate(LocalDateTime.now());
+        invoice.setTotalPrice(totalPrice);
 
         invoiceRepository.save(invoice);
 
