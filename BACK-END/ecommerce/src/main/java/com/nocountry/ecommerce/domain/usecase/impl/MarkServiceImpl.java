@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,8 +30,16 @@ public class MarkServiceImpl implements MarkService {
 
 
     @Transactional(readOnly = true)
-    public List<Mark> findAll() {
-        return markRepository.findAll();
+    public List<Mark> findAllActive() {
+        List <Mark> markList = markRepository.findAll();
+        List <Mark> marksActive = new ArrayList<>();
+        for (Mark mark : markList) {
+            if (mark.getIsAvailable()){
+                 marksActive.add(mark);
+            }
+        }
+        return marksActive;
+        
     }
 
 
@@ -72,6 +81,13 @@ public class MarkServiceImpl implements MarkService {
 
     private void existsName(String name) {
         if (markRepository.existsByName(name)) throw new ExistingNameException(name);
+    }
+
+
+    @Override
+    public List<Mark> findAll() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

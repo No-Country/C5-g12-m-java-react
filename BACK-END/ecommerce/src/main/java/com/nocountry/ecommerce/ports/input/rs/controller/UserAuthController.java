@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,7 @@ public class UserAuthController {
         return ResponseEntity.status(HttpStatus.OK).body(authResponse);
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/token-refresh")
     @ApiOperation("get the refresh token")
     public ResponseEntity<TokenRefreshResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) {
@@ -77,6 +78,7 @@ public class UserAuthController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/me")
     @ApiIgnore
     public ResponseEntity<UserDetailResponse> getUserDetail(@AuthenticationPrincipal User user) {

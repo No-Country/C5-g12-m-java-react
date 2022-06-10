@@ -7,4 +7,8 @@ public interface ApiConstants {
    String MARK_URI = "/v1/mark/";
    String CATEGORY_URI = "/v1/category/";
    String INVOICE_URI = "/v1/invoice/";
+   //authorization
+   String ADMIN = "hasAnyRole('ROLE_ADMIN')";
+   String USER = "hasAnyRole('ROLE_USER')";
+   String BOTH = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')";
 }

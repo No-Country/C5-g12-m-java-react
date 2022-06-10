@@ -10,6 +10,8 @@ public interface MarkService extends ActiveAvailable {
 
     List<Mark> findAll();
 
+    List<Mark> findAllActive();
+
     Long save(Mark entity);
 
     void update(Long id, Mark request);

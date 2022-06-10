@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,8 @@ public class CategoryController {
 
 
     //====================Gets====================//
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping
     public ResponseEntity<List<CategoryDetails>> getAllCategories() {
         return ResponseEntity.ok(mapper.CategoryListToCategoryDetailList(categoryService.findAll()));
@@ -47,6 +49,7 @@ public class CategoryController {
 
     //====================Get by id====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(path = "/{id}")
     public ResponseEntity<CategoryDetails> getById(@Valid @NotNull @PathVariable("id") Long id) {
         return ResponseEntity.ok(mapper.CategoryToCategoryDetails(categoryService.getByIdIfExists(id)));
@@ -55,6 +58,7 @@ public class CategoryController {
 
     //====================Posts====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping(path = "/create")
     public ResponseEntity<Void> createCategory(@RequestBody CategoryRequest categoryCreateRequest) {
         long id = categoryService.save(mapper.CategoryRequestToCategory(categoryCreateRequest));
@@ -67,6 +71,7 @@ public class CategoryController {
 
     //====================Patchs====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PatchMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCategory(@Valid @NotNull @PathVariable("id") Long id,
@@ -78,6 +83,7 @@ public class CategoryController {
 
     //====================Deletes====================//
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@Valid @NotNull @PathVariable Long id) {
