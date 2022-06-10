@@ -26,6 +26,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepository invoiceRepository;
 
     @Override
+    public List<Invoice> getInvoices(Long id) {
+        return invoiceRepository.findByUserId(id);
+    }
+
+    @Override
     @Transactional
     public void processPurchaseRequest(PurchaseRequest request) {
 
