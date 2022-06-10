@@ -41,6 +41,8 @@ public class UserAuthController {
     private final AuthenticationService authenticationService;
 
 
+    //=========================Register=========================//
+
     @ApiOperation("register a new user")
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
@@ -54,6 +56,9 @@ public class UserAuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterResponse(userDetailResponse, authResponse));
     }
 
+    //=========================Login=========================//
+
+
     @ApiOperation("log into the ecommerce")
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
@@ -62,6 +67,8 @@ public class UserAuthController {
                         .login(authRequest.getEmail(), authRequest.getPassword()));
         return ResponseEntity.status(HttpStatus.OK).body(authResponse);
     }
+
+    //=========================Refresh token=========================//
 
     @ApiOperation("get the refresh token")
     @PreAuthorize(BOTH)

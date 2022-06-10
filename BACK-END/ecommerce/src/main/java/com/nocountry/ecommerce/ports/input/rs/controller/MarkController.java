@@ -28,7 +28,7 @@ public class MarkController {
     private final MarkService markService;
     private final MarkMapper mapper;
 
-    //====================Gets====================//
+    //====================Display all====================//
 
     @PreAuthorize(BOTH)
     @GetMapping
@@ -37,7 +37,7 @@ public class MarkController {
         return ResponseEntity.ok(mapper.MarkListToMarkDetailList(markService.findAllActive()));
     }
 
-    //====================Get by id====================//
+    //====================Get one by id====================//
 
     @PreAuthorize(BOTH)
     @ApiOperation("get a mark by id")
@@ -47,7 +47,7 @@ public class MarkController {
     }
 
 
-    //====================Posts====================//
+    //====================Create====================//
 
     @PreAuthorize(ADMIN)
     @ApiOperation("create a mark")
@@ -60,7 +60,7 @@ public class MarkController {
         return ResponseEntity.created(location).build();
     }
 
-    //====================Patchs====================//
+    //====================Update====================//
 
     @ApiOperation("update data mark")
     @PreAuthorize(ADMIN)

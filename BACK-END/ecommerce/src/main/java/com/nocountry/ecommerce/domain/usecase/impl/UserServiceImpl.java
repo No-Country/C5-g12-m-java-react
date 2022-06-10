@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final static String ROLE_USER = "ROLE_USER";
 
+    //=========================Create User=========================//
+
     @Override
     public User createUser(User user) {
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new AlreadyExistsException(user.getEmail());
-        }
+        if (userRepository.existsByEmail(user.getEmail())) throw new AlreadyExistsException(user.getEmail());
 
         user.setRole(roleRepository.findByName(ROLE_USER)
                 .orElseThrow((() -> new RoleNotFoundException(ROLE_USER))));
@@ -43,6 +43,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(user);
     }
 
+    //=========================Login=========================//
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -50,6 +52,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with the email: " + email));
     }
 
+
+    //=========================Get User=========================//
 
     @Transactional
     @Override
@@ -65,12 +69,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(userFromDb);
     }
 
+    //=========================Delete=========================//
+
     @Transactional
     @Override
     public void deleteUser(Long id) {
         User user = getByIdIfExist(id);
         userRepository.delete(user);
     }
+
+    //=========================Util=========================//
 
     @Transactional
     @Override

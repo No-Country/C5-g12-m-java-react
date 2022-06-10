@@ -31,7 +31,7 @@ public class ProductController {
    private final ProductService service;
    private final ProductMapper mapper;
 
-   //====================Gets====================//
+   //====================Display product page====================//
 
    @ApiOperation("display a product page")
    @PreAuthorize(BOTH)
@@ -53,7 +53,7 @@ public class ProductController {
       return ResponseEntity.ok(productDetails);
    }
 
-   //====================Posts====================//
+   //====================Create====================//
 
    @ApiOperation("create a product")
    @PreAuthorize(ADMIN)
@@ -65,7 +65,7 @@ public class ProductController {
       return ResponseEntity.created(location).build();
    }
 
-   //====================Puts====================//
+   //====================Update====================//
 
    @ApiOperation("update product data")
    @PreAuthorize(ADMIN)

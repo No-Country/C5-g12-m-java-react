@@ -40,7 +40,7 @@ public class CategoryController {
     private final CategoryMapper mapper;
 
 
-    //====================Gets====================//
+    //====================Display all====================//
     
     @PreAuthorize(BOTH)
     @GetMapping
@@ -57,7 +57,7 @@ public class CategoryController {
     }
 
 
-    //====================Posts====================//
+    //====================Create====================//
 
     @PreAuthorize(ADMIN)
     @PostMapping(path = "/create")
@@ -65,12 +65,11 @@ public class CategoryController {
         long id = categoryService.save(mapper.CategoryRequestToCategory(categoryCreateRequest));
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(id)
-                .toUri();
+                .path("/{id}").buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();
     }
 
-    //====================Patchs====================//
+    //====================Update====================//
 
     @PreAuthorize(ADMIN)
     @PatchMapping(path = "/{id}")

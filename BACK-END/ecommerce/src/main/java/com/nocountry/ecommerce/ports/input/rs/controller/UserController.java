@@ -23,6 +23,9 @@ public class UserController {
 
     private final UserMapper userMapper;
 
+    //=========================Update=========================//
+
+
     @ApiOperation("update user data")
     @PreAuthorize(BOTH)
     @PutMapping("{id}")
@@ -30,6 +33,8 @@ public class UserController {
         User user = userService.updateUser(id, userMapper.updateUserRequestToUser(userUpdate));
         return ResponseEntity.status(HttpStatus.OK).body(userMapper.userToUserDetailResponse(user));
     }
+
+    //=========================Delete=========================//
 
     @ApiOperation("remove a user")
     @PreAuthorize(ADMIN)

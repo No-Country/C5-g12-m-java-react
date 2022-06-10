@@ -28,12 +28,16 @@ public class InvoiceController {
     private final InvoiceService invoiceService;
     private final InvoiceMapper invoiceMapper;
 
+    //=========================Get invoice=========================//
+
     @GetMapping(path = "/{id}")
     @PreAuthorize(BOTH)
     public ResponseEntity<List<InvoiceResponse>> getInvoices(@PathVariable("id") Long id) {
         List<InvoiceResponse> responses = invoiceMapper.ListInvoiceToInvoiceResponse(invoiceService.getInvoices(id));
         return ResponseEntity.ok(responses);
     }
+
+    //=========================Buy products=========================//
 
     @PreAuthorize(BOTH)
     @PostMapping
