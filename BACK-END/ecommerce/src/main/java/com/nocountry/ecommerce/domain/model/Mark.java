@@ -16,6 +16,7 @@ import java.util.Objects;
 @Setter
 @ToString
 public class Mark {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mark_id")

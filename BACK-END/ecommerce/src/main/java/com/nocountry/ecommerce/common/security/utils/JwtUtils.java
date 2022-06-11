@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class JwtUtils {
 
     @Value("${jwt.secretKey}")
-    private  String SECRET_KEY;
+    private String SECRET_KEY;
 
     private SecretKey key;
 

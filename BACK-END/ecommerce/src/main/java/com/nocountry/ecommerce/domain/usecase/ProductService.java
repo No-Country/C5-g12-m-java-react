@@ -18,4 +18,5 @@ public interface ProductService extends ActiveAvailable {
     void update(Long id, Product product);
 
     void delete(Long id);
+
 }
