@@ -1,17 +1,13 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
-import com.nocountry.ecommerce.common.security.utils.JwtUtils;
+import com.nocountry.ecommerce.common.exception.error.AlreadyExistsException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
+import com.nocountry.ecommerce.common.exception.error.RoleNotFoundException;
 import com.nocountry.ecommerce.domain.model.User;
 import com.nocountry.ecommerce.domain.repository.RoleRepository;
 import com.nocountry.ecommerce.domain.repository.UserRepository;
 import com.nocountry.ecommerce.domain.usecase.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+    private static final String NAME = "User";
 
     private final PasswordEncoder passwordEncoder;
 
@@ -30,39 +27,39 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final RoleRepository roleRepository;
 
-    private final JwtUtils jwtUtils;
+    private final static String ROLE_USER = "ROLE_USER";
 
-
-    private final static String ROLE_USER = "USER";
-
+    //=========================Create User=========================//
 
     @Override
     public User createUser(User user) {
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new AlreadyExistsException("User with this email already exists");
-        }
+        if (userRepository.existsByEmail(user.getEmail())) throw new AlreadyExistsException(user.getEmail());
 
-        user.setRole(roleRepository.findByName(ROLE_USER).orElseThrow((() -> new NotFoundException("Role not found"))));
+        user.setRole(roleRepository.findByName(ROLE_USER)
+                .orElseThrow((() -> new RoleNotFoundException(ROLE_USER))));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }
 
+    //=========================Login=========================//
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with the email: " + email));
     }
 
 
+    //=========================Get User=========================//
 
     @Transactional
     @Override
     public User updateUser(Long id, User user) {
-      
-        User userFromDb = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+
+        User userFromDb = getByIdIfExist(id);
 
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -72,10 +69,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(userFromDb);
     }
 
+    //=========================Delete=========================//
+
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = getByIdIfExist(id);
         userRepository.delete(user);
     }
+
+    //=========================Util=========================//
+
+    @Transactional
+    @Override
+    public User getByIdIfExist(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
+    }
+
+
 }

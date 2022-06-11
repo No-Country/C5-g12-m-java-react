@@ -1,18 +1,17 @@
 package com.nocountry.ecommerce.domain.usecase.impl;
 
-import com.nocountry.ecommerce.common.exception.handler.AlreadyExistsException;
-import com.nocountry.ecommerce.common.exception.handler.NotFoundException;
-import com.nocountry.ecommerce.common.exception.handler.ResourceNotFoundException;
+import com.nocountry.ecommerce.common.exception.error.ExistingNameException;
+import com.nocountry.ecommerce.common.exception.error.ResourceNotFoundException;
 import com.nocountry.ecommerce.domain.model.Category;
 import com.nocountry.ecommerce.domain.model.Mark;
 import com.nocountry.ecommerce.domain.model.Product;
-import com.nocountry.ecommerce.domain.repository.CategoryRepository;
-import com.nocountry.ecommerce.domain.repository.MarkRepository;
 import com.nocountry.ecommerce.domain.repository.ProductRepository;
+import com.nocountry.ecommerce.domain.usecase.CategoryService;
+import com.nocountry.ecommerce.domain.usecase.MarkService;
 import com.nocountry.ecommerce.domain.usecase.ProductService;
+import com.nocountry.ecommerce.ports.input.rs.request.ProductFilterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,65 +19,76 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    private static final String NAME = "Product";
+
     private final ProductRepository productRepository;
-    private final MarkRepository markRepository;
-    private final CategoryRepository categoryRepository;
+    private final MarkService markService;
+    private final CategoryService categoryService;
 
     //===================Find===================//
 
-    @Transactional(readOnly = true)
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<Product> findBySpecification(ProductFilterRequest request) {
+        return productRepository.findByNameAndMarkAndCategory(request.getName(), request.getMark(), request.getCategory());
+    }
+
+    public Product getByIdIfExist(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(NAME, id));
     }
 
     //===================Create===================//
 
     public Long create(Product product) {
-        if (productRepository.findByName(product.getName()).isPresent())
-            throw new AlreadyExistsException("there is a product with the same name");
-
+        existsName(product.getName());
         Long idMark = product.getMark().getId();
         Long idCategory = product.getCategory().getId();
 
-        Mark mark = markRepository.findById(idMark)
-                .orElseThrow(() -> new NotFoundException("mark not found"));
-        Category category = categoryRepository.findById(idCategory)
-                .orElseThrow(() -> new NotFoundException("category not found"));
+        Mark mark = markService.getByIdIfExists(idMark);
+        Category category = categoryService.getByIdIfExists(idCategory);
 
         product.setMark(mark);
         product.setCategory(category);
-        productRepository.save(product);
+        save(product);
         return product.getId();
     }
+
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
 
     //===================Update===================//
 
     public void update(Long id, Product request) {
-        if (productRepository.findByName(request.getName()).isPresent())
-            throw new AlreadyExistsException("there is a product with the same name");
+        existsName(request.getName());
 
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("product not found"));
+        Product product = getByIdIfExist(id);
+
         product.setName(request.getName());
         product.setPrice(request.getPrice());
         product.setDetail(request.getDetail());
         product.setImage(request.getImage());
-        productRepository.save(product);
+        save(product);
     }
 
-    @Override
+
     public void updateAvailable(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Product product = getByIdIfExist(id);
 
         product.setIsAvailable(true);
-        productRepository.save(product);
+        save(product);
     }
 
     //===================Delete===================//
 
     public void delete(Long id) {
-        if (productRepository.findById(id).isPresent()) productRepository.deleteById(id);
-        else throw new ResourceNotFoundException("product not found by id: " + id);
+        Product product = getByIdIfExist(id);
+        productRepository.delete(product);
+    }
+
+    //===================Util===================//
+
+    private void existsName(String name) {
+        if (productRepository.existsByName(name)) throw new ExistingNameException(name);
     }
 
 }

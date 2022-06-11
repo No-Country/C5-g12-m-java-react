@@ -1,17 +1,19 @@
 package com.nocountry.ecommerce.ports.input.rs.request;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MarkRequest {
+public class ProductRequestSimple {
 
-    @NotBlank
-    private String name;
+    @NotNull
+    private Long id;
+
+    @NotNull
+    private Integer amount;
 }
