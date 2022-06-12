@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Invoice {
 
 
@@ -27,19 +25,22 @@ public class Invoice {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
+    @OneToMany
     @JoinTable(
-            name="invoice_product",
-            joinColumns=
-            @JoinColumn(name="invoice_id", referencedColumnName="invoice_id"),
-            inverseJoinColumns=
-            @JoinColumn(name="product_id", referencedColumnName="product_id")
+            name = "invoice_summary",
+            joinColumns =
+            @JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id"),
+            inverseJoinColumns =
+            @JoinColumn(name = "summary_id", referencedColumnName = "summary_id")
     )
-    private List<Product> productList;
+    private List<PurchaseSummary> productList;
 
     @Column(name = "date", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime creationDate;
+
+    @Column(name = "total_price", nullable = false, updatable = false)
+    private Float totalPrice;
 
     @Override
     public boolean equals(Object o) {

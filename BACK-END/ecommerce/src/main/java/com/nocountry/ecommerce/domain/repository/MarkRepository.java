@@ -5,10 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface MarkRepository extends JpaRepository<Mark, Long> {
-    Optional<Mark> findByName(String name);
+
+    boolean existsByName(String name);
+
+    @Query(value = "SELECT m FROM Mark m WHERE m.isAvailable = true")
+    List<Mark> findAllByIsAvailable();
 }

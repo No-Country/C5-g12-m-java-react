@@ -8,7 +8,7 @@ public interface MarkService extends ActiveAvailable {
 
     Mark getByIdIfExists(Long id);
 
-    List<Mark> findAll();
+    List<Mark> findAllActive();
 
     Long save(Mark entity);
 
