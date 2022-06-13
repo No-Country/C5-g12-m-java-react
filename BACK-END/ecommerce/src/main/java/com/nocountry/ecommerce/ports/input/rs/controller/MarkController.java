@@ -30,7 +30,6 @@ public class MarkController {
 
     //====================Display all====================//
 
-    @PreAuthorize(BOTH)
     @GetMapping
     @ApiOperation("display a list of marks")
     public ResponseEntity<List<MarkDetails>> getAllProducts() {
@@ -39,7 +38,6 @@ public class MarkController {
 
     //====================Get one by id====================//
 
-    @PreAuthorize(BOTH)
     @ApiOperation("get a mark by id")
     @GetMapping(path = "/{id}")
     public ResponseEntity<MarkDetails> getById(@Valid @NotNull @PathVariable("id") Long id) {

@@ -9,6 +9,6 @@ public interface ApiConstants {
    String INVOICE_URI = "/v1/invoice/";
    //authorization
    String ADMIN = "hasAnyRole('ROLE_ADMIN')";
-   String USER = "hasAnyRole('ROLE_USER')";
+   String PERMIT_ALL = "permitAll()";
    String BOTH = "hasAnyRole('ROLE_ADMIN', 'ROLE_USER')";
 }

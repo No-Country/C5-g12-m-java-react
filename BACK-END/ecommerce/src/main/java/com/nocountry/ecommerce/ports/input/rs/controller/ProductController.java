@@ -34,7 +34,6 @@ public class ProductController {
    //====================Display product page====================//
 
    @ApiOperation("display a product page")
-   @PreAuthorize(BOTH)
    @GetMapping(path = "/products")
    public ResponseEntity<List<ProductDetails>> getPage(
       @RequestParam(required = false, defaultValue = "") String name,
