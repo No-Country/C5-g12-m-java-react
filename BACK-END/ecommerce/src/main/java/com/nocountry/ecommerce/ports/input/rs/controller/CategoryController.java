@@ -41,8 +41,7 @@ public class CategoryController {
 
 
     //====================Display all====================//
-    
-    @PreAuthorize(BOTH)
+
     @GetMapping
     public ResponseEntity<List<CategoryDetails>> getAllCategories() {
         return ResponseEntity.ok(mapper.CategoryListToCategoryDetailList(categoryService.findAll()));
@@ -50,7 +49,6 @@ public class CategoryController {
 
     //====================Get by id====================//
 
-    @PreAuthorize(BOTH)
     @GetMapping(path = "/{id}")
     public ResponseEntity<CategoryDetails> getById(@Valid @NotNull @PathVariable("id") Long id) {
         return ResponseEntity.ok(mapper.CategoryToCategoryDetails(categoryService.getByIdIfExists(id)));
