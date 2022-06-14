@@ -1,0 +1,59 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)),
+        url("https://images.pexels.com/photos/275033/pexels-photo-275033.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")
+        center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formikError {
+    color: red;
+    position: absolute;
+    transform: translateY(-8px);
+}
+.wrapper {
+    width: 25%;
+    padding: 20px;
+    background-color: transparent;
+}
+.title {
+    font-size: 24px;
+    font-weight: 300;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+}
+.input {
+    flex: 1;
+    min-width: 40%;
+    border-radius: 15px;
+    margin: 10px 0;
+    padding: 10px;
+}
+.inputSubmit {
+    width: 40%;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 15px;
+    background-color: teal;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.agreement {
+    font-size: 16px;
+    margin: 40px 0px;
+}
+.link {
+    margin: 5px 0px;
+    font-size: 12px;
+    text-decoration: underline;
+    list-style: none;
+    cursor: pointer;
+} 
