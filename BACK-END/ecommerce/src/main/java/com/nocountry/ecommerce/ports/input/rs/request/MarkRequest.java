@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MarkRequest {
 
-    @NotEmpty
     @NotBlank
     private String name;
 }
