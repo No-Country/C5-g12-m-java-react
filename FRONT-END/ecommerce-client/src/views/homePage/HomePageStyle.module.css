@@ -1,0 +1,210 @@
+.homeContent {
+    display: flex;
+    height: 100vh;
+}
+.alingAside {
+    height: 100%;
+    width: 40%;
+}
+.pageContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 60%;
+    height: 100%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.titlesContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(-80px);
+}
+.titlesContent h1 {
+    font-size: 3rem;
+    color: blueviolet;
+    letter-spacing: 3px;
+    /* text-transform: uppercase; */
+}
+.logo {
+    height: 200px;
+}
+
+.optContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 70%;
+}
+.boxItemProducts {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding-left: 20px;
+    transition: 1s;
+    cursor: pointer;
+}
+.boxItemProducts:hover .descriptionProducts{
+    display: flex;
+    transition: 1s;
+    color: #2D572C;
+}
+
+.descriptionProducts {
+    color: transparent;
+    transition: 1s;
+}
+
+.boxItemProducts svg {
+    font-size: .9rem
+}
+.boxItemProducts h1 {
+    font-size: .9rem;
+}
+.boxshoppingProducts {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding-left: 20px;
+    transition: 1s;
+    transform: translateX(100px);
+    cursor: pointer;
+}
+.boxshoppingProducts:hover .descriptionProducts{
+    display: flex;
+    transition: 1s;
+    color: #2D572C;
+}
+.boxshoppingProducts svg {
+    font-size: .9rem
+}
+.boxshoppingProducts h1 {
+    font-size: .9rem;
+}
+.boxShoppingCart {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding-left: 20px;
+    transition: 1s;
+    transform: translateX(200px);
+    cursor: pointer;
+}
+.boxShoppingCart:hover .descriptionProducts{
+    display: flex;
+    transition: 1s;
+    color: #2D572C;
+}
+.boxShoppingCart svg {
+    font-size: .9rem
+}
+.boxShoppingCart h1 {
+    font-size: .9rem
+}
+
+.footerContent {
+    color: #AfAfAf;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-size: 1rem;
+}
+.footerContent p i a {
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 1100px) {
+    .alingAside {
+        width: 30%;
+    }
+    .optContent {
+        width: 70%;
+    }
+    .titlesContent h1 {
+        font-size: 2rem;
+    }
+    .logo {
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 900px) {    
+    .titlesContent {   
+        transform: translateX(0px);
+    }
+    .alingAside {
+        width: 10%;
+    }
+    .optContent {
+        width: 80%;
+    }
+    .titlesContent h1 {
+        font-size: 1.5rem;
+    }
+    .logo {
+        height: 150px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .titlesContent {
+        flex-direction: column;   
+        transform: translateX(0px);
+    }
+    .titlesContent h1 {
+        font-size: 1.5rem;
+        margin-top: -25px;
+    }
+    .logo {
+        height: 200px;
+    }
+    .alingAside {
+        width: 0%;
+    }
+    .pageContent {
+        width: 90%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .boxItemProducts {
+        transform: translateX(0px);
+    }
+    .boxshoppingProducts {
+        transform: translateX(0px);
+    }
+    .boxShoppingCart {
+        transform: translateX(0px);
+    }
+    .footerContent {
+        color: #fff;
+        padding-right: 2px;
+        padding-left: 2px;
+        font-size: .9rem;
+    }
+    .footerContent p i a {
+        text-decoration: none;
+        color: #FFF;
+    }
+}
