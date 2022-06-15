@@ -11,8 +11,8 @@ import CustomSpinner from '../../components/Spinner/Spinner';
 const LoginPage = () => {
 
     const dispatch = useDispatch()
+    
     const visible = useSelector(store => store.setLoginFormVisibleReducer) // Boolean data from saga submit
-    console.log(visible)
 
     // Manage login form
     const formik = useFormik({

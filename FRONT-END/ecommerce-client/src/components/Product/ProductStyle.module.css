@@ -1,14 +1,51 @@
 .container {
   flex: 1;
   margin: 5px;
-  min-width: 280px;
-  height: 350px;
+  min-width: 260px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f5fbfd;
   position: relative;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 10px 5px 5px black;
+  overflow: hidden;
+  
+  transition: .5s;
+} 
+.container:hover {
+  transform: scale(.9);
+  box-shadow: none;
 }
+.container:nth-child(1) {
+  background-image: linear-gradient(to bottom right, #ff0000,#000);
+  color: #fff;
+}
+.container:nth-child(2) {
+  background-image: linear-gradient(to bottom right, #337AB3,#f6f6f6);
+}
+.container:nth-child(3) {
+  background-image: linear-gradient(to bottom right, #ff0000,#337);
+  color: #fff;
+} 
+.container:nth-child(4) {
+  background-image: linear-gradient(to bottom right, #66B933,#000);
+  color: #fff;
+} 
+.container:nth-child(5) {
+  background-image: linear-gradient(to bottom right, #E60012,#fff);
+} 
+.container:nth-child(6) {
+  background-image: linear-gradient(to bottom right, #337AB3,#f6f6f6);
+} 
+.container:nth-child(7) {
+  /* background-color: red; */
+}
+.container:nth-child(8) {
+  background-image: linear-gradient(to bottom right, #76B900,#000);
+  color: #fff;
+} 
 .container .info:hover {
     opacity: 1;
 }

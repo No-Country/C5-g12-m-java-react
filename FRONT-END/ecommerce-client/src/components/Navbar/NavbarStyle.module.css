@@ -48,6 +48,9 @@
     cursor: pointer;
     margin-left: 25px;
 }
+.textLink {
+    text-decoration: none;  
+}
 .menuItem svg {
     color: #262626;
     font-size: 32px;

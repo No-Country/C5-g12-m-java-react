@@ -10,8 +10,7 @@ const CartPage = lazy(() => import('../views/CartPage/CartPage'))
 
 const ProviderRoutes = () => {
 
-    console.log(localStorage.getItem("jwt"))
-
+    // Provider routes public/private
     return (
         <BrowserRouter>
             {
