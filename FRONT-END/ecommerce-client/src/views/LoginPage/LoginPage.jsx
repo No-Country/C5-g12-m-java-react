@@ -49,8 +49,7 @@ const LoginPage = () => {
                                 className={style.input} />
                                 {formik.errors.email ?
                                         <div className={style.formikError}>
-                                            {" "}
-                                            {formik.errors.email}{" "}
+                                            {""}{formik.errors.email}{" "}
                                         </div>
                                     : null}
                             <input
