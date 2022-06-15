@@ -1,16 +1,20 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from './LoginPageStyle.module.css'
 
 import { postLoginDataActionSaga } from '../../redux/actions/postLoginDataActions';
+import CustomSpinner from '../../components/Spinner/Spinner';
 
 const LoginPage = () => {
 
     const dispatch = useDispatch()
+    const visible = useSelector(store => store.setLoginFormVisibleReducer) // Boolean data from saga submit
+    console.log(visible)
 
+    // Manage login form
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -28,37 +32,40 @@ const LoginPage = () => {
         },
     });
 
-
+    // Render page
     return (
         <main className={style.container}>
             <article className={style.wrapper}>
                 <h1 className={style.title}>SIGN IN</h1>
-                <form className={style.form} onSubmit={formik.handleSubmit}>
-                    <input
-                        placeholder="email"
-                        id="email"
-                        name="email"
-                        type="email"
-                        onChange={formik.handleChange}
-                        className={style.input} />
-                        {formik.errors.email ?
-                                <div className={style.formikError}>
-                                    {" "}
-                                    {formik.errors.email}{" "}
-                                </div>
-                            : null}
-                    <input
-                        placeholder="password"
-                        id="password"
-                        name="password"
-                        type="password"
-                        onChange={formik.handleChange} 
-                        className={style.input} />
-                    <input
-                        type="submit"
-                        value="LOG IN" 
-                        className={style.inputSubmit} />
-                </form>
+                {
+                    visible ? 
+                        <form className={style.form} onSubmit={formik.handleSubmit}>
+                            <input
+                                placeholder="email"
+                                id="email"
+                                name="email"
+                                type="email"
+                                onChange={formik.handleChange}
+                                className={style.input} />
+                                {formik.errors.email ?
+                                        <div className={style.formikError}>
+                                            {" "}
+                                            {formik.errors.email}{" "}
+                                        </div>
+                                    : null}
+                            <input
+                                placeholder="password"
+                                id="password"
+                                name="password"
+                                type="password"
+                                onChange={formik.handleChange} 
+                                className={style.input} />
+                            <input
+                                type="submit"
+                                value="LOG IN" 
+                                className={style.inputSubmit} />
+                        </form> : <CustomSpinner />
+                }
                     <Link className={style.link} to="/register">CREATE A NEW ACCOUNT</Link>
             </article>
         </main>

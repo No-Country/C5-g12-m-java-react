@@ -1,16 +1,35 @@
-import { call, put } from "redux-saga/effects";
+import { call, put} from "redux-saga/effects";
 import axios from "axios";
-import { SET_LOGIN_USER_ACTIVE, POST_LOGIN_DATA_SAGA_ERROR } from "../types";
+import toast from "react-hot-toast";
+import { 
+    POST_LOGIN_DATA_SAGA_ERROR, 
+    SET_LOGIN_FORM_VISIBLE, 
+    SET_LOGIN_USER_ACTIVE 
+} from "../types";
 
 export function* postLoginDataSaga ({ email, password }) {
+    yield put ({
+        type: SET_LOGIN_FORM_VISIBLE,
+        visible: false
+    })
     try {
-        // yield console.log(process.env.REACT_APP_POST_LOGIN)
-        yield call(axios.post, process.env.REACT_APP_POST_LOGIN, {
+        const { data } = yield call(axios.post, process.env.REACT_APP_POST_LOGIN, {
             email: email,
             password: password,        
         })
-        console.log(SET_LOGIN_USER_ACTIVE)
+        toast.success("successful login")
+        localStorage.setItem("jwt", JSON.stringify(data.jwt))
+        localStorage.setItem("jwtRefresh", JSON.stringify(data.jwtRefresh))
+        yield put ({
+            type: SET_LOGIN_USER_ACTIVE,
+            visible: true
+        })
+
     } catch (error) {
-        yield console.log(POST_LOGIN_DATA_SAGA_ERROR, error)
+        yield put ({
+            type: POST_LOGIN_DATA_SAGA_ERROR,
+            visible: true
+        })
+        toast.error("Wrong user, check your email or password")
     }
 }

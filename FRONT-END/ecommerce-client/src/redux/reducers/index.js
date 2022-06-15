@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
-
-import { switchLoginRegisterFormReducer } from "./switchLoginRegisterFormReducer";
+import { setLoginFormVisibleReducer } from "./setLoginFormVisibleReducer";
 
 export const rootReducers = combineReducers({
-    switchLoginRegisterFormReducer: switchLoginRegisterFormReducer, // Show Register or Login form.
+    setLoginFormVisibleReducer: setLoginFormVisibleReducer, // Set visible login form.
 })

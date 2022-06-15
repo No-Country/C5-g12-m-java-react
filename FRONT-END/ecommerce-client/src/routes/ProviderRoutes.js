@@ -9,17 +9,29 @@ const ProducsListPage = lazy(() => import('../views/ProducsListPage/ProducsListP
 const CartPage = lazy(() => import('../views/CartPage/CartPage'))
 
 const ProviderRoutes = () => {
+
+    console.log(localStorage.getItem("jwt"))
+
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Suspense fallback={ <div>Loading</div> }> <HomePage /> </Suspense> } />
-                <Route path='/login' element={<Suspense fallback={ <div>Loading</div> }> <LoginPage /> </Suspense> } />
-                <Route path='/register' element={<Suspense fallback={ <div>Loading</div> }> <RegisterPage /> </Suspense> } />
-                <Route path='/product' element={<Suspense fallback={ <div>Loading</div> }> <ProductPage /> </Suspense> } />
-                <Route path='/productList' element={<Suspense fallback={ <div>Loading</div> }> <ProducsListPage /> </Suspense> } />
-                <Route path='/cart' element={<Suspense fallback={ <div>Loading</div> }> <CartPage /> </Suspense> } />
-                <Route path="*" element={ <Navigate to="/" replace /> } />
-            </Routes>
+            {
+                localStorage.getItem("jwt") && localStorage.getItem("jwtRefresh") ?           
+                    <Routes>
+                        <Route path='/' element={<Suspense fallback={ <div>Loading</div> }> <HomePage /> </Suspense> } />
+                        <Route path='/product' element={<Suspense fallback={ <div>Loading</div> }> <ProductPage /> </Suspense> } />
+                        <Route path='/productList' element={<Suspense fallback={ <div>Loading</div> }> <ProducsListPage /> </Suspense> } />
+                        <Route path='/cart' element={<Suspense fallback={ <div>Loading</div> }> <CartPage /> </Suspense> } />
+                        <Route path="*" element={ <Navigate to="/" replace /> } />
+                    </Routes> : 
+                    <Routes>
+                        <Route path='/' element={<Suspense fallback={ <div>Loading</div> }> <HomePage /> </Suspense> } />
+                        <Route path='/login' element={<Suspense fallback={ <div>Loading</div> }> <LoginPage /> </Suspense> } />
+                        <Route path='/register' element={<Suspense fallback={ <div>Loading</div> }> <RegisterPage /> </Suspense> } />
+                        <Route path='/product' element={<Suspense fallback={ <div>Loading</div> }> <ProductPage /> </Suspense> } />
+                        <Route path='/productList' element={<Suspense fallback={ <div>Loading</div> }> <ProducsListPage /> </Suspense> } />
+                        <Route path="*" element={ <Navigate to="/" replace /> } />
+                    </Routes>
+            }
         </BrowserRouter>
     );
 };
