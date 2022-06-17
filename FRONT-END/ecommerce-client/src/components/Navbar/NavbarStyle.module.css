@@ -1,11 +1,20 @@
 .container {
-    height: 80px;
-}
-.wrapper {
-    padding: 10px 20px;
+    height: 10vh;
+    width: 100%;
+    background-color: #fff;
+    z-index: 1000; 
+    height: 100%;
+    box-shadow: 5px 15px 15px #009c9c;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.wrapper {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 .left {
     flex: 1;
@@ -22,6 +31,7 @@
     align-items: center;
     margin-left: 25px;
     padding: 5px;
+    border-radius: 15px;
 }
 .inputSearch {
     border: none;
@@ -44,14 +54,24 @@
     justify-content: flex-end;
 }
 .menuItem {
+    display: flex;
+    gap: 20px;
     font-size: 14px;
     cursor: pointer;
     margin-left: 25px;
 }
 .textLink {
     text-decoration: none;  
+    color: #000;
 }
 .menuItem svg {
     color: #262626;
     font-size: 32px;
+}
+
+@media only screen and (max-width: 900px) {
+    .wrapper {
+        flex-direction: column;
+        gap: 10px;
+    }
 }

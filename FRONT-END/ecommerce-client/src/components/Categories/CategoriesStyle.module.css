@@ -1,5 +1,38 @@
 .container {
     display: flex;
-    padding: 20px;
     justify-content: space-between;
+    height: 90vh;
+    width: 100%;
+    background-color: #262626;
+    overflow-x: hidden;
+}
+
+.image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: auto;
+    background-image: url("https://wallpaper.dog/large/29814.jpg");
+    animation: changeImage 15s linear infinite;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.image h1 {
+    font-size: 9vw;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 5px 15px 15px #009c9c;
+
+}
+@keyframes changeImage {
+    /* 1% {opacity: 0;} */
+    20% { background-image: url("https://wallpaper.dog/large/29814.jpg"); opacity: 1;}
+    35% {opacity: 0;}
+    50% { background-image: url("https://w0.peakpx.com/wallpaper/986/433/HD-wallpaper-fortnite-chapter-3-gaming-cool.jpg"); opacity: 1}
+    65% {opacity: 0;}
+    80% { background-image: url("https://i.pinimg.com/originals/f0/e7/50/f0e750685ffbfe74cd7fb00ed3e0efb7.png"); opacity: 1}
+    90% {opacity: 0;}
 }

@@ -3,7 +3,7 @@ import style from './FooterStyle.module.css'
 
 import { BsLinkedin, BsInstagram, BsWhatsapp, BsFacebook } from 'react-icons/bs'
 
-const Footer = () => {
+const CustomFooter = () => {
 
     const [login, setLogin] = useState(false)
 
@@ -13,27 +13,14 @@ const Footer = () => {
                 <h1>NoCountry shop</h1>
                 <p className={style.description}>
                     Federico Castro - Front
-                    Federico Castro - Front
-                    Federico Castro - Front
-                    Federico Castro - Front
-                    Federico Castro - Front
+                    Cristian Aguirre - Backend
+                    Leandro Barrera - Backend
+                    Sofia Martinez - Tester
+                    Javier Garcia - Team Leader
                 </p>
             </article>
             <article className={style.center}>
-                <ul className={style.links}>
-                    <li className={style.listItem}>Home</li>
-                    <li className={style.listItem}>Cart</li>
-                    <li className={style.listItem}>Products</li>
-                    {
-                        login ? 
-                        <li className={style.listItem}>SIGN OUT</li> :
-                    <>
-                        <li className={style.listItem}>Register</li>
-                        <li className={style.listItem}>Sign in</li>
-                    </>  
-                    }
-                    <li className={style.listItem}>Terms</li>
-                </ul>
+                
             <section className={style.socialContainer}>
                 <div className={style.socialIcon}>
                     <BsLinkedin />
@@ -53,4 +40,4 @@ const Footer = () => {
     )
 }
 
-export default Footer
+export default CustomFooter

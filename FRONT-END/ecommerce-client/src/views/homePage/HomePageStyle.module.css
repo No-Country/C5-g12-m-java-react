@@ -1,6 +1,22 @@
 .homeContent {
     display: flex;
-    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    /* overflow-x: hidden; */
+}
+.bodyContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+    align-items: center;
+}
+.navbarPosition {
+    width: 100%;
+    position: sticky;
+    top: 0;
+
 }
 .alingAside {
     height: 100%;
