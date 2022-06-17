@@ -13,6 +13,7 @@ const Products = () => {
 
     const products = useSelector(store => store.getProductsReducer) // Get products
     const search = useSelector(store => store.saveSearchReducer) // set seacth for filter
+    console.log(products)
 
     const handleClickCard = (name, price) => {
         if (localStorage.getItem("jwt") && localStorage.getItem("jwtRefresh")) {

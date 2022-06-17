@@ -12,6 +12,7 @@
     justify-content: space-around;
 }
 .wrapper {
+    padding: 5px;
     width: 80%;
     display: flex;
     align-items: center;
@@ -48,6 +49,7 @@
 }
 .Title {
     font-weight: bold;
+    margin: 0;
 }
 .right {
     flex: 1;

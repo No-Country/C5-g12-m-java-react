@@ -20,11 +20,16 @@
     justify-content: center;
     /* background-color: red; */
 }
+.alignLinks a {
+    text-decoration: none;
+    
+}
 .alignLinks h3 {
     min-width: 290px;
 }
 .alignLinks svg{
     font-size: 3rem;
+    color: #fff;
 }
 .description {
     margin: 20px 0px;
