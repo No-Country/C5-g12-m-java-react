@@ -1,6 +1,22 @@
 .homeContent {
     display: flex;
-    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    /* overflow-x: hidden; */
+}
+.bodyContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+    align-items: center;
+}
+.navbarPosition {
+    width: 100%;
+    position: sticky;
+    top: 0;
+
 }
 .alingAside {
     height: 100%;
@@ -149,8 +165,8 @@
     }
 }
 
-@media only screen and (max-width: 900px) {    
-    .titlesContent {   
+@media only screen and (max-width: 900px) {
+    .titlesContent {
         transform: translateX(0px);
     }
     .alingAside {
@@ -169,7 +185,7 @@
 
 @media only screen and (max-width: 600px) {
     .titlesContent {
-        flex-direction: column;   
+        flex-direction: column;
         transform: translateX(0px);
     }
     .titlesContent h1 {

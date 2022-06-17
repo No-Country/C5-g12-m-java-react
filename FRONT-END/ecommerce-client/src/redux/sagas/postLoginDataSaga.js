@@ -13,7 +13,7 @@ export function* postLoginDataSaga ({ email, password }) {
         visible: false
     })
     try {
-        const { data } = yield call(axios.post, process.env.REACT_APP_POST_LOGIN, {
+        const { data } = yield call(axios.post, "https://no-country-back.herokuapp.com/v1/auth/login", {
             email: email,
             password: password,        
         })

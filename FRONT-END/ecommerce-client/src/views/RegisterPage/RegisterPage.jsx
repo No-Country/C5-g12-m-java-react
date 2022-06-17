@@ -86,12 +86,12 @@ const RegisterPage = () => {
                                 value="REGISTER"
                                 className={style.inputSubmit} />
                         </div>
-                        <div>
+                        {/* <div>
                         {formik.errors.email ? formik.errors.email : null}
                         {formik.errors.first_name ? formik.errors.first_name : null}
                         {formik.errors.last_name ? formik.errors.last_name : null}
                         {formik.errors.password ? formik.errors.password : null}
-                        </div>
+                        </div> */}
                     </form>
                         <span className={style.agreement}>
                             By creating an account, I consent to the processing of my personal
