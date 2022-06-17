@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 public class ProductDetails {
    private String name;
    private Double price;
+   private Long stock;
 }

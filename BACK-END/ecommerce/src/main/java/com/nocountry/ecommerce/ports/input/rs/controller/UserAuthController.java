@@ -69,6 +69,14 @@ public class UserAuthController {
         return ResponseEntity.status(HttpStatus.OK).body(authResponse);
     }
 
+    //=========================Logout=========================//
+
+    @ApiOperation("logout to session")
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+    }
+
     //=========================Refresh token=========================//
 
     @ApiOperation("get the refresh token")
