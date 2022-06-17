@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +42,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     @Transactional
-    public void processPurchaseRequest(PurchaseRequest request) {
+    public void processPurchaseRequest(PurchaseRequest request, Long id) {
 
-        User user = userService.getByIdIfExist(request.getIdUser());
+        User user = userService.getByIdIfExist(id);
         List<PurchaseSummary> listProducts = new ArrayList<>();
         float totalPrice = 0;
 

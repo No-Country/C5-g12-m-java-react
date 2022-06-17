@@ -14,6 +14,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 @RequiredArgsConstructor
@@ -48,8 +52,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with the email: " + email));
+        User user = userRepository.findByEmail(email)
+           .orElseThrow(() -> new UsernameNotFoundException("User not found with the email: " + email));
+
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession();
+        session.setAttribute("id", user.getId());
+
+        return user;
     }
 
 

@@ -13,9 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class PurchaseRequest {
 
-    @NotNull
-    private Long idUser;
-
     @NotEmpty
     @NotNull
     private List<ProductRequestSimple> listProducts;

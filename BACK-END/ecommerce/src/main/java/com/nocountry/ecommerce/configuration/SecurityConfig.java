@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.context.request.RequestContextListener;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -33,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       return super.authenticationManagerBean();
    }
 
+   @Bean
+   public RequestContextListener listener() { return new RequestContextListener(); }
 
    @Override
    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          .anyRequest().permitAll()
          .and().exceptionHandling()
          .and().sessionManagement()
-         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
       http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
    }
