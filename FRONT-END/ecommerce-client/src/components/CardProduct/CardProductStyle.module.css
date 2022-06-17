@@ -1,0 +1,19 @@
+.cardContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid #000;
+    padding: 10px;
+    border: none;
+    box-shadow: 5px 5px 5px #009c9c;
+    border-radius: 15px;
+}
+.cardContent svg {
+    font-size: 50px;
+}
+
+.addButton :hover{
+    cursor: pointer;
+    color: #337;
+} 
