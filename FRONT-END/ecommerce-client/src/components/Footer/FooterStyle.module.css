@@ -3,12 +3,32 @@
     background-color: #262626;
     border-top: 10px double #fff;
     width: 100%;
+    overflow-x: hidden;
 }
 .left {
-    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 20px;
+    width: 100%;
+    color: #fff;
+}
+.alignLinks {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    /* background-color: red; */
+}
+.alignLinks a {
+    text-decoration: none;
+    
+}
+.alignLinks h3 {
+    min-width: 290px;
+}
+.alignLinks svg{
+    font-size: 3rem;
     color: #fff;
 }
 .description {
@@ -36,6 +56,12 @@
 .socialIcon svg {
     font-size: 32px;
 }
+@media only screen and (max-width: 700px) {
+    .alignLinks svg{
+        font-size: 1rem;
+    }
+}
+
 .center {
     flex: 1;
     align-items: center;

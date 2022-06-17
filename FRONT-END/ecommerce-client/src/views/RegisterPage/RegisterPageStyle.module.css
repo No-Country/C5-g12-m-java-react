@@ -13,9 +13,18 @@
     justify-content: center;
 }
 .formikError {
+    
+    display: flex;
+    flex: row;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    transform: translateX(20%);
+    gap: 10px;
+    z-index: 10;
     color: red;
     position: absolute;
-    transform: translateY(-8px);
+
 }
 .wrapper {
     display: flex;
@@ -56,6 +65,10 @@
     min-width: 100px;
     cursor: pointer;
     margin-bottom: 10px;
+    z-index: 20;
+}
+.inpuuts{
+    z-index: 20;
 }
 .agreement {
     font-size: 16px;
