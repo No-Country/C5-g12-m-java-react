@@ -7,6 +7,7 @@
     box-shadow: 5px 15px 15px #009c9c;
     display: flex;
     align-items: center;
+    background-color: #fff;
     flex-direction: column;
     justify-content: space-around;
 }
@@ -41,6 +42,7 @@
     font-size: 16;
 }
 .center {
+    font-size: 2rem;
     flex: 1;
     text-align: center;
 }
